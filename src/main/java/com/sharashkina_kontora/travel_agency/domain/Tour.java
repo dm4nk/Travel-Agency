@@ -19,4 +19,12 @@ public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    Long freePlaces;
+    Long price;
+    Long duration;
+
+    @ManyToOne
+    Location location;
+
 }

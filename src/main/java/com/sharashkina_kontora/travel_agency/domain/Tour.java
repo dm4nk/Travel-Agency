@@ -17,15 +17,15 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Long freePlaces;
-    Long price;
+    Integer freePlaces;
+    Integer price;
     Long duration;
 
     @ManyToOne
     Location location;
 
     @Builder
-    public Tour(Long id, Long freePlaces, Long price, Long duration, Location location) {
+    public Tour(Long id, Integer freePlaces, Integer price, Long duration, Location location) {
         this.id = id;
         this.freePlaces = freePlaces;
         this.price = price;

@@ -23,7 +23,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Optional<Location> findById(Long id) {
-        return Optional.of(locationRepository.getById(id));
+        return locationRepository.findById(id);
     }
 
     @Override

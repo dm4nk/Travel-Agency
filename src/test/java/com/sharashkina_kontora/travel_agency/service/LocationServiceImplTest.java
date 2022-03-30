@@ -9,7 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class LocationServiceImplTest {
@@ -31,15 +35,38 @@ class LocationServiceImplTest {
     }
 
     @Test
-    void findById() {
+    void findAll(){
+        List<Location> locations = List.of(location);
+        when(locationRepository.findAll()).thenReturn(locations);
 
+        List<Location> result = locationService.findAll();
+
+        assertArrayEquals(result.toArray(), locations.toArray());
+    }
+
+    @Test
+    void findById() {
+        when(locationRepository.findById(1L)).thenReturn(Optional.of(location));
+
+        Location result = locationService.findById(1L).orElse(null);
+
+        assertEquals(result, location);
     }
 
     @Test
     void save() {
+        when(locationRepository.save(location)).thenReturn(location);
+
+        Location result = locationService.save(location);
+
+        assertEquals(result, location);
+        verify(locationRepository, times(1)).save(any());
     }
 
     @Test
     void delete() {
+        locationService.delete(location);
+
+        verify(locationRepository, times(1)).delete(location);
     }
 }

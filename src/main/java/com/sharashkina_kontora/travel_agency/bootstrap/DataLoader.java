@@ -28,15 +28,15 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Location savedLocation = locationService.save(location);
 
         Tour tour1 = Tour.builder()
-                .freePlaces(1L)
-                .price(1L)
+                .freePlaces(1)
+                .price(1)
                 .duration(1L)
                 .location(savedLocation)
                 .build();
 
         Tour tour2 = Tour.builder()
-                .freePlaces(2L)
-                .price(2L)
+                .freePlaces(2)
+                .price(2)
                 .duration(2L)
                 .location(savedLocation)
                 .build();

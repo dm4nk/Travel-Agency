@@ -26,7 +26,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Optional<Tour> findById(Long id) {
-        return Optional.of(tourRepository.getById(id));
+        return tourRepository.findById(id);
     }
 
     @Override

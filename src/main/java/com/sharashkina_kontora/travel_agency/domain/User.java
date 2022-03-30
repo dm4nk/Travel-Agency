@@ -35,7 +35,7 @@ public class User implements Serializable {
     Role role;
 
     @Builder
-    public User(Long id, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, String password, List<Order> orders, Role role) {
+    public User(Long id, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, String password, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,7 +43,6 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.password = password;
-        this.orders = orders == null ? new ArrayList<>() : orders;
         this.role = role;
     }
 }

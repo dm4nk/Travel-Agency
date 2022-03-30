@@ -25,9 +25,8 @@ public class Role {
     List<User> users = new ArrayList<>();
 
     @Builder
-    public Role(Long id, String name, List<User> users) {
+    public Role(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.users = users == null ? new ArrayList<>() : users;
     }
 }

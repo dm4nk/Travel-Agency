@@ -27,10 +27,9 @@ public class Location {
     List<Tour> tours = new ArrayList<>();
 
     @Builder
-    public Location(Long id, String city, String country, List<Tour> tours) {
+    public Location(Long id, String city, String country) {
         this.id = id;
         this.city = city;
         this.country = country;
-        this.tours = tours == null ? new ArrayList<>() : tours;
     }
 }

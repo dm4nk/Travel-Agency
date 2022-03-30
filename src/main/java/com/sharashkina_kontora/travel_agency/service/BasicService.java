@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface BasicService<T> {
     List<T> findAll();
 
-    Optional<T> findById(Integer id);
+    Optional<T> findById(Long id);
 
     T save(T t);
 

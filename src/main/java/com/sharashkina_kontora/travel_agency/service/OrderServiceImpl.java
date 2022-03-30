@@ -1,10 +1,12 @@
 package com.sharashkina_kontora.travel_agency.service;
 
 import com.sharashkina_kontora.travel_agency.domain.Order;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAll() {
@@ -12,7 +14,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> findById(Integer id) {
+    public Optional<Order> findById(Long id) {
         return Optional.empty();
     }
 

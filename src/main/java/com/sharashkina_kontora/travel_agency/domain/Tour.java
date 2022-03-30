@@ -1,9 +1,6 @@
 package com.sharashkina_kontora.travel_agency.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -27,4 +24,12 @@ public class Tour {
     @ManyToOne
     Location location;
 
+    @Builder
+    public Tour(Long id, Long freePlaces, Long price, Long duration, Location location) {
+        this.id = id;
+        this.freePlaces = freePlaces;
+        this.price = price;
+        this.duration = duration;
+        this.location = location;
+    }
 }

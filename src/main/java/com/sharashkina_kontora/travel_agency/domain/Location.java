@@ -1,12 +1,11 @@
 package com.sharashkina_kontora.travel_agency.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "locations")
@@ -25,6 +24,13 @@ public class Location {
     String country;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "location")
-    Tour tour;
+    List<Tour> tours = new ArrayList<>();
 
+    @Builder
+    public Location(Long id, String city, String country, List<Tour> tours) {
+        this.id = id;
+        this.city = city;
+        this.country = country;
+        this.tours = tours == null ? new ArrayList<>() : tours;
+    }
 }

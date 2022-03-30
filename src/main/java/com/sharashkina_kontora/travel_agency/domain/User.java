@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,13 +29,13 @@ public class User implements Serializable {
     String password;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-    List<Order> order;
+    List<Order> orders = new ArrayList<>();
 
     @ManyToOne
     Role role;
 
     @Builder
-    public User(Long id, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, String password, Role role) {
+    public User(Long id, String firstName, String lastName, String email, String phoneNumber, LocalDate birthday, String password, List<Order> orders, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,6 +43,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.password = password;
+        this.orders = orders == null ? new ArrayList<>() : orders;
         this.role = role;
     }
 }

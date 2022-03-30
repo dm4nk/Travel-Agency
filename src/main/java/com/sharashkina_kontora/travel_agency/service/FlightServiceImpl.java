@@ -21,7 +21,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Optional<Flight> findById(Integer id) {
+    public Optional<Flight> findById(Long id) {
         return Optional.empty();
     }
 

@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,12 +22,12 @@ public class Role {
     String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "role")
-    List<User> users;
+    List<User> users = new ArrayList<>();
 
     @Builder
     public Role(Long id, String name, List<User> users) {
         this.id = id;
         this.name = name;
-        this.users = users;
+        this.users = users == null ? new ArrayList<>() : users;
     }
 }

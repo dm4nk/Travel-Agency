@@ -1,8 +1,11 @@
 package com.sharashkina_kontora.travel_agency.service;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService {
     @Override
     public List<UserService> findAll() {
@@ -10,7 +13,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserService> findById(Integer id) {
+    public Optional<UserService> findById(Long id) {
         return Optional.empty();
     }
 

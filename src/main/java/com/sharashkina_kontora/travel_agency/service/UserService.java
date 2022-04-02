@@ -1,4 +1,6 @@
 package com.sharashkina_kontora.travel_agency.service;
 
-public interface UserService extends BasicService<UserService> {
+import com.sharashkina_kontora.travel_agency.domain.User;
+
+public interface UserService extends BasicService<User> {
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TourServiceImpl implements TourService {
@@ -33,10 +34,20 @@ public class TourServiceImpl implements TourService {
     @Transactional
     public Tour save(Tour tour) {
         Location location = tour.getLocation();
-        if(location.getId() == null)
+        if(location.getId() == null) {
             throw new RuntimeException("Location without id");
+        }
 
-        location.getTours().add(tour);
+        //location.getTours().add(tour);
+
+        Tour tourInLocation = location.getTours().stream()
+                .filter(t -> t.getId().equals(tour.getId()))
+                .findFirst()
+                .orElse(null);
+
+        if(tourInLocation == null)
+            location.getTours().add(tour);
+
 
         return tourRepository.save(tour);
     }

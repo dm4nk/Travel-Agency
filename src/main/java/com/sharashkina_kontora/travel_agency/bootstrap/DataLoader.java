@@ -25,25 +25,29 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .country("co")
                 .build();
 
-        Location savedLocation = locationService.save(location);
+        locationService.save(location);
 
         Tour tour1 = Tour.builder()
                 .freePlaces(1)
                 .price(1)
                 .duration(1L)
-                .location(savedLocation)
+                .location(location)
                 .build();
 
         Tour tour2 = Tour.builder()
                 .freePlaces(2)
                 .price(2)
                 .duration(2L)
-                .location(savedLocation)
+                .location(location)
                 .build();
 
         Tour saved1 = tourService.save(tour1);
         Tour saved2 = tourService.save(tour2);
 
-        tourService.delete(saved1);
+        saved1.setFreePlaces(6);
+        saved1.setFreePlaces(7);
+        saved1.setFreePlaces(8);
+        tourService.save(saved1);
+        tourService.delete(saved2);
     }
 }

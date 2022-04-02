@@ -1,10 +1,7 @@
 package com.sharashkina_kontora.travel_agency.domain;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -24,9 +21,17 @@ public class Order {
     @ManyToOne
     User user;
 
-    @OneToOne
+    @ManyToOne
     Tour tour;
 
     @Enumerated(EnumType.ORDINAL)
     Status status;
+
+    @Builder
+    public Order(Long id, User user, Tour tour, Status status) {
+        this.id = id;
+        this.user = user;
+        this.tour = tour;
+        this.status = status;
+    }
 }

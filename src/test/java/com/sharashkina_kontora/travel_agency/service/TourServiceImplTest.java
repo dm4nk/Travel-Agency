@@ -75,6 +75,7 @@ class TourServiceImplTest {
 
         assertEquals(result, tour);
         assertEquals(1, result.getLocation().getTours().size());
+        verify(tourRepository, times(1)).save(tour);
     }
 
     @Test

@@ -1,15 +1,12 @@
 package com.sharashkina_kontora.travel_agency.service;
 
 import com.sharashkina_kontora.travel_agency.domain.Location;
-import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.repository.TourRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +45,8 @@ public class TourServiceImpl implements TourService {
         location.getTours().remove(tour);
         locationService.save(location);
 
-        orderService.findAll().stream().filter(order -> tour.getOrders().contains(order))
+        orderService.findAll().stream()
+                .filter(order -> tour.getOrders().contains(order))
                 .forEach(orderService::delete);
 
         tourRepository.delete(tour);

@@ -7,9 +7,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -106,12 +103,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .build();
 
         orderService.save(order1);
-        //orderService.save(order2);
+        orderService.save(order2);
 
-        //orderService.delete(orderService.findById(1L).get());
         tourService.delete(tourService.findById(1L).get());
-
-        //orderService.delete(orderService.findById(1L).get());
-        //userService.delete(userService.findById(1L).get());
     }
 }

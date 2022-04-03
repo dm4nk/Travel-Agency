@@ -13,7 +13,9 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
-    public RoleServiceImpl(RoleRepository roleRepository) {this.roleRepository = roleRepository;}
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public List<Role> findAll() {
@@ -33,5 +35,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void delete(Role role) {roleRepository.delete(role);}
+    public void delete(Role role) {
+        roleRepository.delete(role);
+    }
 }

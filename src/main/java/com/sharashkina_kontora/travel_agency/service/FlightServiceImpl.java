@@ -34,5 +34,7 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     @Transactional
-    public void delete(Flight flight) {flightRepository.delete(flight);}
+    public void delete(Flight flight) {
+        flightRepository.delete(flight);
+    }
 }

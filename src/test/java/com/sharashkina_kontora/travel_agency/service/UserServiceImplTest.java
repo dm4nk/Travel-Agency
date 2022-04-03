@@ -1,6 +1,5 @@
 package com.sharashkina_kontora.travel_agency.service;
 
-import com.sharashkina_kontora.travel_agency.domain.Flight;
 import com.sharashkina_kontora.travel_agency.domain.Role;
 import com.sharashkina_kontora.travel_agency.domain.User;
 import com.sharashkina_kontora.travel_agency.repository.UserRepository;
@@ -15,7 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

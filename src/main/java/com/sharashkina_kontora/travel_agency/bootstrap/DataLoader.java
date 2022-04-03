@@ -99,10 +99,16 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .status(Status.PLANNED)
                 .build();
 
-        orderService.save(order1);
+        Order order2 = Order.builder()
+                .user(user)
+                .tour(tour1)
+                .status(Status.DONE)
+                .build();
 
-        //no good
-        orderService.delete(orderService.findById(1L).get());
+        orderService.save(order1);
+        //orderService.save(order2);
+
+        //orderService.delete(orderService.findById(1L).get());
         tourService.delete(tourService.findById(1L).get());
 
         //orderService.delete(orderService.findById(1L).get());

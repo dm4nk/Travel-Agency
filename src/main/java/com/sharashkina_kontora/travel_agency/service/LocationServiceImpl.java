@@ -4,6 +4,7 @@ import com.sharashkina_kontora.travel_agency.domain.Location;
 import com.sharashkina_kontora.travel_agency.repository.LocationRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +28,13 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
+    @Transactional
     public Location save(Location location) {
         return locationRepository.save(location);
     }
 
     @Override
+    @Transactional
     public void delete(Location location) {
         locationRepository.delete(location);
     }

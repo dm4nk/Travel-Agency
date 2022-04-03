@@ -29,6 +29,13 @@ public class Tour {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "tour")
     List<Order> orders = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "flights_of_tour",
+            joinColumns = @JoinColumn(name = "tour_id"),
+            inverseJoinColumns = @JoinColumn(name = "flight_id"))
+    List<Flight> flights = new ArrayList<>();
+
     @Builder
     public Tour(Long id, Integer freePlaces, Integer price, Long duration, Location location) {
         this.id = id;

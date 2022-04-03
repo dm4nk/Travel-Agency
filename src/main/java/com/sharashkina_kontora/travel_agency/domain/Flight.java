@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "flights")
@@ -22,6 +23,9 @@ public class Flight {
     String departureAirport;
     String arrivalAirport;
     LocalDate date;
+
+    @ManyToMany(mappedBy = "flights")
+    List<Tour> tours;
 
     @Builder
     public Flight(Long id, String name, String departureAirport, String arrivalAirport, LocalDate date) {

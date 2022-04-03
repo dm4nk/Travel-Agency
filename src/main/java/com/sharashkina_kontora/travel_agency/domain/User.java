@@ -28,7 +28,7 @@ public class User implements Serializable {
     LocalDate birthday;
     String password;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     List<Order> orders = new ArrayList<>();
 
     @ManyToOne

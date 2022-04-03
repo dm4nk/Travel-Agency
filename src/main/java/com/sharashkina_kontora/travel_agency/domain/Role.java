@@ -21,7 +21,7 @@ public class Role {
 
     String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "role")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "role")
     List<User> users = new ArrayList<>();
 
     @Builder

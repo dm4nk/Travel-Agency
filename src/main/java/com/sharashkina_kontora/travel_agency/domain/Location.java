@@ -32,4 +32,19 @@ public class Location {
         this.city = city;
         this.country = country;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Location)) return false;
+
+        Location location = (Location) o;
+
+        return id.equals(location.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

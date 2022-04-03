@@ -5,7 +5,9 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tours")
@@ -29,6 +31,9 @@ public class Tour {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "tour")
     List<Order> orders = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    Set<Flight> flights = new HashSet<>();
+
     @Builder
     public Tour(Long id, Integer freePlaces, Integer price, Long duration, Location location) {
         this.id = id;
@@ -36,5 +41,20 @@ public class Tour {
         this.price = price;
         this.duration = duration;
         this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tour)) return false;
+
+        Tour tour = (Tour) o;
+
+        return id.equals(tour.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

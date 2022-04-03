@@ -12,7 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +36,7 @@ class LocationServiceImplTest {
     }
 
     @Test
-    void findAll(){
+    void findAll() {
         List<Location> locations = List.of(location);
         when(locationRepository.findAll()).thenReturn(locations);
 

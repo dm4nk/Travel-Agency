@@ -1,6 +1,7 @@
 package com.sharashkina_kontora.travel_agency.service;
 
 import com.sharashkina_kontora.travel_agency.domain.Location;
+import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.repository.TourRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,11 +14,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TourServiceImplTest {
+
+    @Mock
+    OrderService orderService;
 
     @Mock
     TourRepository tourRepository;
@@ -30,6 +35,7 @@ class TourServiceImplTest {
 
     Tour tour;
     Location location;
+    Order order;
 
     @BeforeEach
     void setUp() {
@@ -46,6 +52,13 @@ class TourServiceImplTest {
                 .duration(3L)
                 .location(location)
                 .build();
+
+        order = Order.builder()
+                .id(3L)
+                .tour(tour)
+                .build();
+
+        tour.setOrders(List.of(order));
     }
 
     @Test
@@ -74,18 +87,17 @@ class TourServiceImplTest {
         Tour result = tourService.save(tour);
 
         assertEquals(result, tour);
-        assertEquals(1, result.getLocation().getTours().size());
         verify(tourRepository, times(1)).save(tour);
     }
 
     @Test
     void delete() {
-        location.getTours().add(tour);
         when(locationService.save(any())).thenReturn(location);
+        when(orderService.findAll()).thenReturn(List.of(order));
 
         tourService.delete(tour);
 
-        assertEquals(0, location.getTours().size());
+        verify(orderService, times(1)).delete(any());
         verify(locationService, times(1)).save(any());
         verify(tourRepository, times(1)).delete(tour);
     }

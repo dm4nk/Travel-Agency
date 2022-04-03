@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +49,7 @@ class RoleServiceImplTest {
         Role result = roleService.save(role);
 
         assertEquals(result, role);
-        verify(roleService, times(1)).save(role);
+        verify(roleRepository, times(1)).save(role);
     }
 
     @Test

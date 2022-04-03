@@ -28,7 +28,7 @@ public class User implements Serializable {
     LocalDate birthday;
     String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     List<Order> orders = new ArrayList<>();
 
     @ManyToOne
@@ -45,4 +45,6 @@ public class User implements Serializable {
         this.password = password;
         this.role = role;
     }
+
+
 }

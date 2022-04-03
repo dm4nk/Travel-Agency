@@ -49,7 +49,7 @@ class RoleServiceImplTest {
         Role result = roleService.save(role);
 
         assertEquals(result, role);
-        verify(roleService, times(1)).save(role);
+        verify(roleRepository, times(1)).save(role);
     }
 
     @Test

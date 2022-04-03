@@ -21,13 +21,13 @@ import static org.mockito.Mockito.*;
 class OrderServiceImplTest {
 
     @Mock
+    UserService userService;
+
+    @Mock
+    TourService tourService;
+
+    @Mock
     OrderRepository orderRepository;
-
-    @Mock
-    UserServiceImpl userService;
-
-    @Mock
-    TourServiceImpl tourService;
 
     @InjectMocks
     OrderServiceImpl orderService;
@@ -86,29 +86,18 @@ class OrderServiceImplTest {
     void save() {
         when(orderRepository.save(order)).thenReturn(order);
 
-        Order result = orderService.findById(1L).orElse(null);
+        Order result = orderService.save(order);
 
         assertEquals(result, order);
-        assertEquals(1, user.getOrders().size());
-        assertEquals(1, tour.getOrders().size());
-        verify(tourService, times(1)).save(tour);
-        verify(userService, times(1)).save(user);
         verify(orderRepository, times(1)).save(order);
     }
 
     @Test
     void delete() {
-        tour.getOrders().add(order);
-        user.getOrders().add(order);
-        when(tourService.save(any())).thenReturn(tour);
-        when(userService.save(any())).thenReturn(user);
-
         orderService.delete(order);
 
-        assertEquals(0, tour.getOrders().size());
-        assertEquals(0, user.getOrders().size());
-        verify(tourService, times(1)).save(any());
-        verify(userService, times(1)).save(any());
-        verify(orderRepository, times(2)).delete(order);
+        verify(orderRepository, times(1)).delete(order);
+        verify(userService, times(1)).save(user);
+        verify(tourService, times(1)).save(tour);
     }
 }

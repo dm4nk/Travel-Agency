@@ -4,8 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "tours")
@@ -29,12 +28,8 @@ public class Tour {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "tour")
     List<Order> orders = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "flights_of_tour",
-            joinColumns = @JoinColumn(name = "tour_id"),
-            inverseJoinColumns = @JoinColumn(name = "flight_id"))
-    List<Flight> flights = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    Set<Flight> flights = new HashSet<>();
 
     @Builder
     public Tour(Long id, Integer freePlaces, Integer price, Long duration, Location location) {

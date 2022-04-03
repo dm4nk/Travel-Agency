@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 class UserServiceImplTest {
 
     @Mock
-    RoleServiceImpl roleService;
+    RoleService roleService;
 
     @Mock
     UserRepository userRepository;
@@ -35,6 +35,11 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        role = Role.builder()
+                .id(2L)
+                .name("admin")
+                .build();
+
         user = User.builder()
                 .id(1L)
                 .firstName("Dima")
@@ -43,11 +48,7 @@ class UserServiceImplTest {
                 .phoneNumber("89277583192")
                 .birthday(LocalDate.now())
                 .password("123456")
-                .build();
-
-        role = Role.builder()
-                .id(2L)
-                .name("admin")
+                .role(role)
                 .build();
     }
 
@@ -77,20 +78,15 @@ class UserServiceImplTest {
         User result = userService.save(user);
 
         assertEquals(result, user);
-        assertEquals(1, role.getUsers().size());
-        verify(roleService, times(1)).save(role);
         verify(userRepository, times(1)).save(user);
     }
 
     @Test
     void delete() {
-        role.getUsers().add(user);
         when(roleService.save(any())).thenReturn(role);
-
         userService.delete(user);
 
-        assertEquals(0, role.getUsers().size());
-        verify(roleService, times(1)).save(role);
         verify(userRepository, times(1)).delete(user);
+        verify(roleService, times(1)).save(role);
     }
 }

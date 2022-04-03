@@ -5,7 +5,10 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "flights")
@@ -24,8 +27,8 @@ public class Flight {
     String arrivalAirport;
     LocalDate date;
 
-    @ManyToMany(mappedBy = "flights")
-    List<Tour> tours;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "flights")
+    Set<Tour> tours = new HashSet<>();
 
     @Builder
     public Flight(Long id, String name, String departureAirport, String arrivalAirport, LocalDate date) {

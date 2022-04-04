@@ -7,11 +7,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,7 +32,7 @@ public class User implements Serializable {
     String password;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-    List<Order> orders = new ArrayList<>();
+    Set<Order> orders = new HashSet<>();
 
     @ManyToOne
     Role role;

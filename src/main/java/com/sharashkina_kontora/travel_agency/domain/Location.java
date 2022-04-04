@@ -5,7 +5,9 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "locations")
@@ -24,7 +26,7 @@ public class Location {
     String country;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "location")
-    List<Tour> tours = new ArrayList<>();
+    Set<Tour> tours = new HashSet<>();
 
     @Builder
     public Location(Long id, String city, String country) {

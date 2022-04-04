@@ -5,7 +5,9 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -22,7 +24,7 @@ public class Role {
     String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "role")
-    List<User> users = new ArrayList<>();
+    Set<User> users = new HashSet<>();
 
     @Builder
     public Role(Long id, String name) {

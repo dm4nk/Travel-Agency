@@ -29,7 +29,7 @@ public class Tour {
     Location location;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "tour")
-    List<Order> orders = new ArrayList<>();
+    Set<Order> orders = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     Set<Flight> flights = new HashSet<>();

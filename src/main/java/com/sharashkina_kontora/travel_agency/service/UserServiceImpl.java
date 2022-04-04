@@ -3,6 +3,7 @@ package com.sharashkina_kontora.travel_agency.service;
 import com.sharashkina_kontora.travel_agency.domain.Role;
 import com.sharashkina_kontora.travel_agency.domain.User;
 import com.sharashkina_kontora.travel_agency.repository.UserRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final OrderService orderService;
 
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, @Lazy OrderService orderService) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.orderService = orderService;
     }
 
     /**
@@ -60,6 +63,10 @@ public class UserServiceImpl implements UserService {
         Role role = user.getRole();
         role.getUsers().remove(user);
         roleService.save(role);
+
+        orderService.findAll().stream()
+                .filter(order -> user.getOrders().contains(order))
+                .forEach(orderService::delete);
 
         userRepository.delete(user);
     }

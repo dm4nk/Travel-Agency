@@ -159,11 +159,13 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         orderService.save(order1);
         orderService.save(order2);
         orderService.save(order3);
-        order1.setStatus(Status.DONE);
-        orderService.save(order1);
+
+        User user10 = userService.findById(1L).get();
+
+        userService.delete(user10);
 
         //tourService.delete(tourService.findById(2L).get());
-        flightService.delete(flightService.findById(4L).get());
+        //flightService.delete(flightService.findById(4L).get());
         //flightService.findById(4L);
         /*
         Order order2 = Order.builder()
@@ -181,6 +183,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
        // tourService.delete(tourService.findById(1L).get());
 
-        tourService.findMostPopular().forEach(tour -> log.debug(tour.getId().toString()));
+        //tourService.findMostPopular().forEach(tour -> log.debug(tour.getId().toString()));
     }
 }

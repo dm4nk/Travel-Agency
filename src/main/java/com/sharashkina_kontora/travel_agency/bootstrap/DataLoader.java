@@ -2,6 +2,7 @@ package com.sharashkina_kontora.travel_agency.bootstrap;
 
 import com.sharashkina_kontora.travel_agency.domain.*;
 import com.sharashkina_kontora.travel_agency.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Component
+@Slf4j
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     private final TourService tourService;
     private final LocationService locationService;
@@ -146,8 +148,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         order1.setStatus(Status.DONE);
         orderService.save(order1);
 
-        tourService.delete(tourService.findById(2L).get());
-       flightService.delete(flightService.findById(4L).get());
+        //tourService.delete(tourService.findById(2L).get());
+        flightService.delete(flightService.findById(4L).get());
         //flightService.findById(4L);
         /*
         Order order2 = Order.builder()
@@ -164,5 +166,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         //orderService.save(order2);
 
        // tourService.delete(tourService.findById(1L).get());
+
+        tourService.findCheapest().forEach(tour -> log.debug(tour.getId().toString()));
     }
 }

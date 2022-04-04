@@ -22,22 +22,42 @@ public class TourServiceImpl implements TourService {
         this.orderService = orderService;
     }
 
+    /**
+     * Returns all existing tours
+     * @return list of tours
+     */
     @Override
     public List<Tour> findAll() {
         return tourRepository.findAll();
     }
 
+    /**
+     * Returns tour by special id
+     * @param id
+     * @return tour by special id
+     */
     @Override
     public Optional<Tour> findById(Long id) {
         return tourRepository.findById(id);
     }
 
+    /**
+     * Method to create or update tour or its characteristics
+     * @param tour
+     * @return tour that was created or changed
+     */
     @Override
     @Transactional
     public Tour save(Tour tour) {
         return tourRepository.save(tour);
     }
 
+    /**
+     * Method to remove tour from database
+     * First, we remove the tour from locations table, then - remove each order, which contains this tour
+     * Finally, tour is removed from database
+     * @param tour
+     */
     @Override
     @Transactional
     public void delete(Tour tour) {

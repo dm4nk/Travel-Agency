@@ -19,22 +19,41 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
     }
 
+    /**
+     * Returns all existing users
+     * @return list of user
+     */
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
+    /**
+     * Returns user by special id
+     * @param id
+     * @return user by special id
+     */
     @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 
+    /**
+     * Method to create or update user or its characteristics
+     * @param user
+     * @return user that was created or changed
+     */
     @Override
     @Transactional
     public User save(User user) {
         return userRepository.save(user);
     }
 
+    /**
+     * Method to remove user from database
+     * Before the user is deleted, we removed links to it from roles table
+     * @param user
+     */
     @Override
     @Transactional
     public void delete(User user) {

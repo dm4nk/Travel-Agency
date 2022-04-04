@@ -24,7 +24,7 @@ public class Order {
     @ManyToOne
     Tour tour;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     Status status;
 
     @Builder

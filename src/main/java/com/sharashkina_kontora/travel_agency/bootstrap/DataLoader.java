@@ -30,36 +30,49 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         Location location = Location.builder()
-                .city("ci")
-                .country("co")
+                .city("Moscow")
+                .country("Russia")
                 .build();
 
+        Location location2 = Location.builder()
+                .city("Saint-Petersberg")
+                .country("Russia")
+                .build();
         locationService.save(location);
+        locationService.save(location2);
 
         Flight flight = Flight.builder()
-                .name("floig")
-                .departureAirport("da")
-                .arrivalAirport("ar")
+                .name("flight1")
+                .departureAirport("Kurumoch")
+                .arrivalAirport("Domodedovo")
                 .date(LocalDate.now())
                 .build();
 
         Flight flight2 = Flight.builder()
-                .name("floig2")
-                .departureAirport("da")
-                .arrivalAirport("ar")
+                .name("flight3")
+                .departureAirport("Domodedovo")
+                .arrivalAirport("Pulkovo")
                 .date(LocalDate.now())
                 .build();
 
         Flight flight3 = Flight.builder()
-                .name("floig3")
-                .departureAirport("da")
-                .arrivalAirport("ar")
+                .name("flight2")
+                .departureAirport("Pulkovo")
+                .arrivalAirport("Kurumoch")
+                .date(LocalDate.now())
+                .build();
+
+        Flight flight4 = Flight.builder()
+                .name("flight4")
+                .departureAirport("Pulkovo")
+                .arrivalAirport("Kurumoch")
                 .date(LocalDate.now())
                 .build();
 
         Flight savedFlight = flightService.save(flight);
         Flight savedFlight2 = flightService.save(flight2);
         Flight savedFlight3 = flightService.save(flight3);
+        Flight savedFlight4 = flightService.save(flight4);
 
         Tour tour1 = Tour.builder()
                 .freePlaces(1)
@@ -76,11 +89,28 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         tourService.save(tour1);
 
+        Tour tour2 = Tour.builder()
+                .freePlaces(3)
+                .price(1)
+                .duration(1L)
+                .location(location)
+                .build();
+
+        tourService.save(tour2);
+        tour2.setFlights(Set.of(savedFlight4));
+        tourService.save(tour2);
+
         Role role = Role.builder()
                 .name("adm")
                 .build();
 
         roleService.save(role);
+
+        Role role2 = Role.builder()
+                .name("user")
+                .build();
+
+        roleService.save(role2);
 
         User user = User.builder()
                 .firstName("Lilya")
@@ -90,21 +120,49 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         userService.save(user);
 
+        User user2 = User.builder()
+                .firstName("Tourist")
+                .password("123")
+                .role(role2)
+                .build();
+
+        userService.save(user2);
+
+        User user3 = User.builder()
+                .firstName("Dima")
+                .password("123")
+                .role(role)
+                .build();
+
+        userService.save(user3);
+
         Order order1 = Order.builder()
                 .user(user)
                 .tour(tour1)
                 .status(Status.PLANNED)
                 .build();
 
+        orderService.save(order1);
+        order1.setStatus(Status.DONE);
+        orderService.save(order1);
+
+        tourService.delete(tourService.findById(2L).get());
+       flightService.delete(flightService.findById(4L).get());
+        //flightService.findById(4L);
+        /*
         Order order2 = Order.builder()
                 .user(user)
                 .tour(tour1)
                 .status(Status.DONE)
                 .build();
 
-        orderService.save(order1);
-        orderService.save(order2);
+         */
 
-        tourService.delete(tourService.findById(1L).get());
+       // userService.delete(userService.findAll());
+
+        //roleService.delete(roleService.findById(2L).get());
+        //orderService.save(order2);
+
+       // tourService.delete(tourService.findById(1L).get());
     }
 }

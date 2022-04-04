@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -44,8 +45,16 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Integer findMostPopular(){
-        return  tourRepository.findMostPopular();
+    public List<Tour> findMostPopular(){
+        return  findAll().stream().sorted(Comparator.comparingInt(o -> o.getOrders().size()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Tour> findLessPopular(){
+        List<Tour> mostPopular = findMostPopular();
+        Collections.reverse(mostPopular);
+        return mostPopular;
     }
 
     @Override

@@ -41,6 +41,11 @@ public class TourServiceImpl implements TourService {
         return tourRepository.findById(id);
     }
 
+    @Override
+    public Integer findMostPopular(){
+        return  tourRepository.findMostPopular();
+    }
+
     /**
      * Method to create or update tour or its characteristics
      * @param tour

@@ -14,17 +14,14 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final UserService userService;
-    private final TourService tourService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, TourService tourService) {
+    public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
-        this.userService = userService;
-        this.tourService = tourService;
     }
 
     /**
      * Returns all existing orders
+     *
      * @return list of orders
      */
     @Override
@@ -34,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Returns order by special id
+     *
      * @param id
      * @return order by special id
      */
@@ -44,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Method to create or update order or its characteristics
+     *
      * @param order
      * @return order that was created or changed
      */
@@ -57,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
      * Method to remove order from database
      * First, we remove the order from users table, then - remove the order from tours table
      * Finally, order is removed from database
+     *
      * @param order
      */
     @Override
@@ -64,11 +64,9 @@ public class OrderServiceImpl implements OrderService {
     public void delete(Order order) {
         User user = order.getUser();
         user.getOrders().remove(order);
-        userService.save(user);
 
         Tour tour = order.getTour();
         tour.getOrders().remove(order);
-        tourService.save(tour);
 
         orderRepository.delete(order);
     }

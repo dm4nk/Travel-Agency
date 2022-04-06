@@ -18,6 +18,7 @@ public class FlightServiceImpl implements FlightService {
 
     /**
      * Returns all existing flights
+     *
      * @return list of flights
      */
     @Override
@@ -27,6 +28,7 @@ public class FlightServiceImpl implements FlightService {
 
     /**
      * Returns flight by special id
+     *
      * @param id
      * @return flight by special id
      */
@@ -37,6 +39,7 @@ public class FlightServiceImpl implements FlightService {
 
     /**
      * Method to create or update flight's characteristics
+     *
      * @param flight
      * @return flight, which was created or changed
      */
@@ -49,6 +52,7 @@ public class FlightServiceImpl implements FlightService {
     /**
      * Method to remove flight from database
      * If one of the tours contains this flight, it cannot be removed
+     *
      * @param flight
      */
     @Override

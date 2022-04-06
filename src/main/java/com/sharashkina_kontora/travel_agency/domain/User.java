@@ -6,7 +6,9 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,7 +34,7 @@ public class User implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     Set<Order> orders = new HashSet<>();
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     Role role;
 
     @Builder

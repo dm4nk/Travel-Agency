@@ -3,11 +3,8 @@ package com.sharashkina_kontora.travel_agency.domain;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -21,12 +18,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     User user;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     Tour tour;
 
     @Enumerated(EnumType.STRING)
@@ -43,13 +38,15 @@ public class Order {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Order order)) return false;
+        if (!(o instanceof Order)) return false;
 
-        return Objects.equals(id, order.id);
+        Order order = (Order) o;
+
+        return id.equals(order.id);
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return id.hashCode();
     }
 }

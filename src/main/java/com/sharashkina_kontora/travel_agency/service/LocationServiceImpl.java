@@ -18,7 +18,6 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * Return all existing locations
-     *
      * @return list of locations
      */
     @Override
@@ -28,7 +27,6 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * Method to get location by special id
-     *
      * @param id
      * @return location by special id
      */
@@ -39,7 +37,6 @@ public class LocationServiceImpl implements LocationService {
 
     /**
      * Method to create or update location's characteristics
-     *
      * @param location
      * @return location that was created or changed
      */
@@ -52,7 +49,6 @@ public class LocationServiceImpl implements LocationService {
     /**
      * Method to remove location from database
      * If one of the tours contains this location, it cannot be removed
-     *
      * @param location
      */
     @Override

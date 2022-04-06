@@ -19,6 +19,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Returns all existing roles
+     *
      * @return list of roles
      */
     @Override
@@ -28,6 +29,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Returns role by special id
+     *
      * @param id
      * @return role by special id
      */
@@ -38,6 +40,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * Method to create or update role or its characteristics
+     *
      * @param role
      * @return role that was created or changed
      */
@@ -50,6 +53,7 @@ public class RoleServiceImpl implements RoleService {
     /**
      * Method to remove role from database
      * If at least one of users has such role, it cannot be removed
+     *
      * @param role
      */
     @Override

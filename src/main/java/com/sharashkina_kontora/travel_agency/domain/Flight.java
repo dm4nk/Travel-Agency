@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -40,15 +41,13 @@ public class Flight {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Flight)) return false;
+        if (!(o instanceof Flight flight)) return false;
 
-        Flight flight = (Flight) o;
-
-        return id.equals(flight.id);
+        return Objects.equals(id, flight.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }

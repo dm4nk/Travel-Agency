@@ -2,12 +2,13 @@ package com.sharashkina_kontora.travel_agency.domain;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -17,14 +18,16 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     String firstName;
     String lastName;
+    @Column(unique = true)
     String email;
+    @Column(unique = true)
     String phoneNumber;
     LocalDate birthday;
     String password;
@@ -48,17 +51,45 @@ public class User implements Serializable {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Set.of(role);
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (!(o instanceof User user)) return false;
 
-        User user = (User) o;
-
-        return id.equals(user.id);
+        return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }

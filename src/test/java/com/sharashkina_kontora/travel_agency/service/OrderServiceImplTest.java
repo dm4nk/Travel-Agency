@@ -100,7 +100,5 @@ class OrderServiceImplTest {
         orderService.delete(order);
 
         verify(orderRepository, times(1)).delete(order);
-        verify(userService, times(1)).save(user);
-        verify(tourService, times(1)).save(tour);
     }
 }

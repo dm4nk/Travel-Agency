@@ -93,13 +93,8 @@ class TourServiceImplTest {
 
     @Test
     void delete() {
-        when(locationService.save(any())).thenReturn(location);
-        when(orderService.findAll()).thenReturn(List.of(order));
-
         tourService.delete(tour);
 
-        verify(orderService, times(1)).delete(any());
-        verify(locationService, times(1)).save(any());
         verify(tourRepository, times(1)).delete(tour);
     }
 }

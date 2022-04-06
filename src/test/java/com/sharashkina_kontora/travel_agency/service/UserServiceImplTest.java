@@ -83,10 +83,8 @@ class UserServiceImplTest {
 
     @Test
     void delete() {
-        when(roleService.save(any())).thenReturn(role);
         userService.delete(user);
 
         verify(userRepository, times(1)).delete(user);
-        verify(roleService, times(1)).save(role);
     }
 }

@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -44,15 +45,13 @@ public class Tour {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Tour)) return false;
+        if (!(o instanceof Tour tour)) return false;
 
-        Tour tour = (Tour) o;
-
-        return id.equals(tour.id);
+        return Objects.equals(id, tour.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }

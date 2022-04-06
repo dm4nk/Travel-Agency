@@ -162,6 +162,6 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         orderService.delete(order1);
 
-        //userService.delete(userService.findById(1L).get());
+        userService.delete(userService.findById(1L).get());
     }
 }

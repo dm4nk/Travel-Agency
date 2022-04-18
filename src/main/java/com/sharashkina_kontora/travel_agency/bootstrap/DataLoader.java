@@ -77,6 +77,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Flight savedFlight4 = flightService.save(flight4);
 
         Tour tour1 = Tour.builder()
+                .name("NICE TOUR")
                 .freePlaces(1)
                 .price(1)
                 .duration(1L)
@@ -92,6 +93,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         tourService.save(tour1);
 
         Tour tour2 = Tour.builder()
+                .name("NICEEEEE TOUR 2")
                 .freePlaces(3)
                 .price(1)
                 .duration(1L)
@@ -132,6 +134,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         User user3 = User.builder()
                 .firstName("Dima")
+                .email("dim@gmaill.com")
                 .password("123")
                 .role(role)
                 .build();
@@ -139,19 +142,19 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         userService.save(user3);
 
         Order order1 = Order.builder()
-                .user(user)
+                .user(user3)
                 .tour(tour1)
                 .status(Status.PLANNED)
                 .build();
 
         Order order2 = Order.builder()
-                .user(user)
+                .user(user3)
                 .tour(tour1)
                 .status(Status.PLANNED)
                 .build();
 
         Order order3 = Order.builder()
-                .user(user2)
+                .user(user3)
                 .tour(tour2)
                 .status(Status.PLANNED)
                 .build();
@@ -160,8 +163,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         orderService.save(order2);
         orderService.save(order3);
 
-        orderService.delete(order1);
+        //orderService.delete(order1);
 
-        userService.delete(userService.findById(1L).get());
+        //userService.delete(userService.findById(1L).get());
     }
 }

@@ -1,12 +1,27 @@
-.order-component{
-    border-radius: 15px;
-    background-color: hsla(214, 53%, 23%, 0.16);
-    box-shadow: 1px 2px 15px rgba(0, 0, 0, .1);
-    border: 1px solid gray;
+@import url(/themes/my-theme/document.css);
+.order-component {
+  border-radius: 15px;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  background-color: var(--lumo-shade-10pct);
+  -webkit-box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
+          box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
 }
 
-.header{
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    box-shadow: 1px 2px 15px rgba(0, 0, 0, .1);
+.order-component:hover {
+  cursor: default;
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
+  border: 1px solid var(--lumo-primary-text-color);
+  -webkit-box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.32);
+          box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.32);
 }
+
+.top-menu {
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  -webkit-box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
+          box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
+  background-color: var(--lumo-shade-10pct);
+}
+/*# sourceMappingURL=styles.css.map */

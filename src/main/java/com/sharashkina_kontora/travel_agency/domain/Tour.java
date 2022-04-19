@@ -56,4 +56,12 @@ public class Tour {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return name +
+                ", $" + price +
+                ", " + duration + " days"+
+                ", flights:" + flights;
+    }
 }

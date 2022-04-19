@@ -2,6 +2,7 @@ package com.sharashkina_kontora.travel_agency.view.components;
 
 import com.sharashkina_kontora.travel_agency.domain.User;
 import com.sharashkina_kontora.travel_agency.service.UserService;
+import com.sharashkina_kontora.travel_agency.view.MainView;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.login.LoginForm;
@@ -59,7 +60,7 @@ public class AuthorizationComponent extends LoginForm implements KeyNotifier {
     private void initNotification() {
         notificationSuccessfully.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         notificationSuccessfully.setPosition(Notification.Position.BOTTOM_CENTER);
-        notificationSuccessfully.setDuration(1200);
+        notificationSuccessfully.setDuration(MainView.NOTIFICATION_DURATION);
     }
 
     public void initComponent() {

@@ -141,27 +141,27 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         userService.save(user3);
 
-        Order order1 = Order.builder()
-                .user(user3)
-                .tour(tour1)
-                .status(Status.PLANNED)
-                .build();
-
-        Order order2 = Order.builder()
-                .user(user3)
-                .tour(tour1)
-                .status(Status.PLANNED)
-                .build();
-
-        Order order3 = Order.builder()
-                .user(user3)
-                .tour(tour2)
-                .status(Status.PLANNED)
-                .build();
-
-        orderService.save(order1);
-        orderService.save(order2);
-        orderService.save(order3);
+//        Order order1 = Order.builder()
+//                .user(user3)
+//                .tour(tour1)
+//                .status(Status.PLANNED)
+//                .build();
+//
+//        Order order2 = Order.builder()
+//                .user(user3)
+//                .tour(tour1)
+//                .status(Status.PLANNED)
+//                .build();
+//
+//        Order order3 = Order.builder()
+//                .user(user3)
+//                .tour(tour2)
+//                .status(Status.PLANNED)
+//                .build();
+//
+//        orderService.save(order1);
+//        orderService.save(order2);
+//        orderService.save(order3);
 
         //orderService.delete(order1);
 

@@ -20,6 +20,7 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    String name;
     Integer freePlaces;
     Integer price;
     Long duration;
@@ -34,7 +35,8 @@ public class Tour {
     Set<Flight> flights = new HashSet<>();
 
     @Builder
-    public Tour(Long id, Integer freePlaces, Integer price, Long duration, Location location) {
+    public Tour(Long id, Integer freePlaces, Integer price, Long duration, Location location, String name) {
+        this.name = name;
         this.id = id;
         this.freePlaces = freePlaces;
         this.price = price;
@@ -53,5 +55,13 @@ public class Tour {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return name +
+                ", $" + price +
+                ", " + duration + " days"+
+                ", flights:" + flights;
     }
 }

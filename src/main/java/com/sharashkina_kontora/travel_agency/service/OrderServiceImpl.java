@@ -49,6 +49,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order save(Order order) {
+        User user = order.getUser();
+        user.getOrders().add(order);
+
+        Tour tour = order.getTour();
+        tour.getOrders().add(order);
+
         return orderRepository.save(order);
     }
 

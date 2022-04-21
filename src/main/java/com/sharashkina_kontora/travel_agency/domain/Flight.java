@@ -50,4 +50,11 @@ public class Flight {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return departureAirport +
+                "\u27A2" +
+                arrivalAirport;
+    }
 }

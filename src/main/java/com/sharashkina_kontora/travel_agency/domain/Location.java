@@ -2,8 +2,6 @@ package com.sharashkina_kontora.travel_agency.domain;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -48,5 +46,10 @@ public class Location {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return city + ", " + country;
     }
 }

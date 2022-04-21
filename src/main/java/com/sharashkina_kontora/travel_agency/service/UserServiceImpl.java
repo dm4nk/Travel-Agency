@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public User save(User user) {
-        if(user.getRole() == null)
+        if (user.getRole() == null)
             user.setRole(Role.builder().id(2L).name("user").build());
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

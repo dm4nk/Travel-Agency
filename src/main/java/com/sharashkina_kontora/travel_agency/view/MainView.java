@@ -53,7 +53,7 @@ public class MainView extends VerticalLayout {
     private final MenuItem toggleButtonUnauthorizedMenu = unauthorizedMenu.addItem(VaadinIcon.MOON.create());
     //authorizedMenu
     private final MenuBar authorizedMenu = new MenuBar();
-    private final MenuItem addOrder = authorizedMenu.addItem("Add Order");
+    private final MenuItem showOrders = authorizedMenu.addItem("Orders");
     private final MenuItem logOut = authorizedMenu.addItem("Log out");
     private final MenuItem emailMenuButton = authorizedMenu.addItem("");
     private final MenuItem toggleButtonAuthorizedMenu = authorizedMenu.addItem(VaadinIcon.MOON.create());
@@ -104,7 +104,7 @@ public class MainView extends VerticalLayout {
     }
 
     private void configureComponents() {
-        //todo confogure services so that they could return valid objects, so that 'this.user = user1;' could work
+        //todo configure services so that they could return valid objects, so that 'this.user = user1;' could work
         registrationComponent.setRegistrationEndHandler(user1 -> {
             //this.user = user1;
             this.user = userService.findById(user1.getId()).orElse(null);
@@ -120,12 +120,12 @@ public class MainView extends VerticalLayout {
         editOrderComponent.setChangeHandler(user1 -> {
             //this.user = user1;
             this.user = userService.findById(user1.getId()).orElse(null);
-            userPageComponent.refreshComponent(user);
+            userPageComponent.initComponent(user);
         });
 
         showOrderComponent.setChangeHandler(user1 -> {
             this.user = userService.findById(user1.getId()).orElse(null);
-            userPageComponent.refreshComponent(user);
+            userPageComponent.initComponent(user);
         });
     }
 
@@ -137,7 +137,8 @@ public class MainView extends VerticalLayout {
     }
 
     private MenuBar createAuthorizedMenu() {
-        addOrder.addClickListener(menuItemClickEvent -> editOrderComponent.editOrder(Order.builder().user(user).status(Status.PLANNED).build()));
+        //showOrders.addClickListener(menuItemClickEvent -> editOrderComponent.editOrder(Order.builder().user(user).status(Status.PLANNED).build()));
+        showOrders.addClickListener(menuItemClickEvent -> userPageComponent.initComponent(user));
         toggleButtonAuthorizedMenu.addClickListener(menuItemClickEvent -> toggleTheme());
         logOut.addClickListener(menuItemClickEvent -> performLogOut());
         return authorizedMenu;
@@ -149,8 +150,8 @@ public class MainView extends VerticalLayout {
 
     private void performLogIn() {
         replace(unauthorizedMenu, authorizedMenu);
-        userPageComponent.initComponent(user);
-        replace(mainPageComponent, userPageComponent);
+        //userPageComponent.initComponent(user);
+        //replace(mainPageComponent, userPageComponent);
         emailMenuButton.setText(user.getFirstName() + " " + user.getLastName());
     }
 

@@ -55,6 +55,7 @@ public class ShowOrderComponent extends VerticalLayout {
         delete.getElement().getThemeList().add("error");
         initNotification();
         add(actions);
+        cancel.addClickListener(event -> dialog.close());
 
         add(id, status, price, duration, location);
 

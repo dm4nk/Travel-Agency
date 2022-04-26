@@ -34,7 +34,7 @@ public class UserPageComponent extends VerticalLayout {
         add(add);
         add.addClickListener(menuItemClickEvent -> editOrderComponent.editOrder(Order.builder().user(user).status(Status.PLANNED).build()));
         user.getOrders().forEach(order -> add(showOrderComponent.initComponent(order)));
-        if(user.getOrders().isEmpty())
+        if (user.getOrders().isEmpty())
             add(new H4("No orders yet..."));
         dialog.open();
         dialog.add(this);

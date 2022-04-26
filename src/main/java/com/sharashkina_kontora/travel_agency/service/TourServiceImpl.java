@@ -3,6 +3,8 @@ package com.sharashkina_kontora.travel_agency.service;
 import com.sharashkina_kontora.travel_agency.domain.Location;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.repository.TourRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -61,6 +63,11 @@ public class TourServiceImpl implements TourService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Page<Tour> findAll(Pageable pageable) {
+        return tourRepository.findAll(pageable);
+    }
+
     /**
      * Method to create or update tour or its characteristics
      *
@@ -70,6 +77,9 @@ public class TourServiceImpl implements TourService {
     @Override
     @Transactional
     public Tour save(Tour tour) {
+        Location location = tour.getLocation();
+        location.getTours().add(tour);
+
         return tourRepository.save(tour);
     }
 

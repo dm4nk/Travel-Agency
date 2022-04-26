@@ -71,7 +71,7 @@ public class EditOrderComponent extends FormLayout implements KeyNotifier {
             this.order = newOrder;
         }
 
-        if(order.getTour() != null){
+        if (order.getTour() != null) {
             tour.setEnabled(false);
         }
 

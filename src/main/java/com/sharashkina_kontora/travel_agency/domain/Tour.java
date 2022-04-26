@@ -25,7 +25,7 @@ public class Tour {
     Integer price;
     Long duration;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     Location location;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "tour")
@@ -61,7 +61,7 @@ public class Tour {
     public String toString() {
         return name +
                 ", $" + price +
-                ", " + duration + " days"+
+                ", " + duration + " days" +
                 ", flights:" + flights;
     }
 }

@@ -1,13 +1,12 @@
 package com.sharashkina_kontora.travel_agency.view;
 
-import com.sharashkina_kontora.travel_agency.domain.Order;
-import com.sharashkina_kontora.travel_agency.domain.Status;
 import com.sharashkina_kontora.travel_agency.domain.User;
 import com.sharashkina_kontora.travel_agency.service.UserService;
 import com.sharashkina_kontora.travel_agency.view.components.AuthorizationComponent;
 import com.sharashkina_kontora.travel_agency.view.components.MainPageComponent;
 import com.sharashkina_kontora.travel_agency.view.components.RegistrationComponent;
 import com.sharashkina_kontora.travel_agency.view.components.UserPageComponent;
+import com.sharashkina_kontora.travel_agency.view.components.amin.AdminPage;
 import com.sharashkina_kontora.travel_agency.view.components.order.EditOrderComponent;
 import com.sharashkina_kontora.travel_agency.view.components.order.ShowOrderComponent;
 import com.vaadin.flow.component.Component;
@@ -46,17 +45,24 @@ public class MainView extends VerticalLayout {
     private final UserPageComponent userPageComponent;
     private final EditOrderComponent editOrderComponent;
     private final ShowOrderComponent showOrderComponent;
+    private final AdminPage adminPage;
     //unauthorizedMenu
     private final MenuBar unauthorizedMenu = new MenuBar();
     private final MenuItem registration = unauthorizedMenu.addItem("Registration");
     private final MenuItem authorization = unauthorizedMenu.addItem("Authorization");
     private final MenuItem toggleButtonUnauthorizedMenu = unauthorizedMenu.addItem(VaadinIcon.MOON.create());
-    //authorizedMenu
-    private final MenuBar authorizedMenu = new MenuBar();
-    private final MenuItem showOrders = authorizedMenu.addItem("Orders");
-    private final MenuItem logOut = authorizedMenu.addItem("Log out");
-    private final MenuItem emailMenuButton = authorizedMenu.addItem("");
-    private final MenuItem toggleButtonAuthorizedMenu = authorizedMenu.addItem(VaadinIcon.MOON.create());
+    //userMenu
+    private final MenuBar userMenu = new MenuBar();
+    private final MenuItem showOrders = userMenu.addItem("Orders");
+    private final MenuItem logOut = userMenu.addItem("Log out");
+    private final MenuItem emailMenuButton = userMenu.addItem("");
+    private final MenuItem toggleButtonAuthorizedMenu = userMenu.addItem(VaadinIcon.MOON.create());
+    //adminMenu
+    private final MenuBar adminMenu = new MenuBar();
+    private final MenuItem addTour = adminMenu.addItem("Add tour");
+    private final MenuItem addLocation = adminMenu.addItem("Add location");
+    private final MenuItem addFlight = adminMenu.addItem("Add tour");
+    private final MenuItem toggleButtonUserMenu = adminMenu.addItem(VaadinIcon.MOON.create());
     //todo add profile component
     private final Label sure = new Label("Do you want to log out?");
     private final Button acceptLogOut = new Button("Accept");
@@ -67,7 +73,7 @@ public class MainView extends VerticalLayout {
     //user
     private User user;
 
-    public MainView(UserService userService, RegistrationComponent registrationComponent, AuthorizationComponent authorizationComponent, MainPageComponent mainPageComponent, UserPageComponent userPageComponent, EditOrderComponent editOrderComponent, ShowOrderComponent showOrderComponent) {
+    public MainView(UserService userService, RegistrationComponent registrationComponent, AuthorizationComponent authorizationComponent, MainPageComponent mainPageComponent, UserPageComponent userPageComponent, EditOrderComponent editOrderComponent, ShowOrderComponent showOrderComponent, AdminPage adminPage) {
         this.userService = userService;
         this.registrationComponent = registrationComponent;
         this.authorizationComponent = authorizationComponent;
@@ -75,13 +81,12 @@ public class MainView extends VerticalLayout {
         this.userPageComponent = userPageComponent;
         this.editOrderComponent = editOrderComponent;
         this.showOrderComponent = showOrderComponent;
+        this.adminPage = adminPage;
 
-        createAuthorizedMenu();
+        createUserMenu();
+        createAdminMenu();
         configureComponents();
         configureLogOutDialog();
-
-        authorizedMenu.getElement().getClassList().add("top-menu");
-        unauthorizedMenu.getElement().getClassList().add("top-menu");
 
         currentComponent = mainPageComponent;
 
@@ -92,7 +97,7 @@ public class MainView extends VerticalLayout {
         acceptLogOut.getElement().getThemeList().add("error");
 
         acceptLogOut.addClickListener(event -> {
-            replace(authorizedMenu, unauthorizedMenu);
+            replace(userMenu, unauthorizedMenu);
             user = User.builder().build();
             mainPageComponent.changeTextToMainPage();
 
@@ -136,12 +141,15 @@ public class MainView extends VerticalLayout {
         return unauthorizedMenu;
     }
 
-    private MenuBar createAuthorizedMenu() {
-        //showOrders.addClickListener(menuItemClickEvent -> editOrderComponent.editOrder(Order.builder().user(user).status(Status.PLANNED).build()));
+    private void createAdminMenu() {
+        toggleButtonUserMenu.addClickListener(menuItemClickEvent -> toggleTheme());
+    }
+
+    private MenuBar createUserMenu() {
         showOrders.addClickListener(menuItemClickEvent -> userPageComponent.initComponent(user));
         toggleButtonAuthorizedMenu.addClickListener(menuItemClickEvent -> toggleTheme());
         logOut.addClickListener(menuItemClickEvent -> performLogOut());
-        return authorizedMenu;
+        return userMenu;
     }
 
     private void performLogOut() {
@@ -149,13 +157,16 @@ public class MainView extends VerticalLayout {
     }
 
     private void performLogIn() {
-        replace(unauthorizedMenu, authorizedMenu);
-        //userPageComponent.initComponent(user);
-        //replace(mainPageComponent, userPageComponent);
-        emailMenuButton.setText(user.getFirstName() + " " + user.getLastName());
+        if (user.getRole().getAuthority().equals("adm")) {
+            replace(mainPageComponent, adminPage);
+            replace(unauthorizedMenu, adminMenu);
+        } else {
+            replace(unauthorizedMenu, userMenu);
+            emailMenuButton.setText(user.getFirstName() + " " + user.getLastName());
+        }
     }
 
-    private void toggleTheme(){
+    private void toggleTheme() {
         ThemeList themeList = UI.getCurrent().getElement().getThemeList();
 
         if (themeList.contains("dark")) {

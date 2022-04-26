@@ -2,6 +2,8 @@ package com.sharashkina_kontora.travel_agency.service;
 
 import com.sharashkina_kontora.travel_agency.domain.Location;
 import com.sharashkina_kontora.travel_agency.repository.LocationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -59,5 +61,10 @@ public class LocationServiceImpl implements LocationService {
     @Transactional
     public void delete(Location location) {
         locationRepository.delete(location);
+    }
+
+    @Override
+    public Page<Location> findAll(Pageable pageable) {
+        return locationRepository.findAll(pageable);
     }
 }

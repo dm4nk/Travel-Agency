@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ class FlightServiceImplTest {
     FlightServiceImpl flightService;
 
     Flight flight;
-    LocalDate localDate = LocalDate.now();
+    LocalDateTime localDate = LocalDateTime.now();
 
     @BeforeEach
     void setUp() {

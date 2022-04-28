@@ -1,14 +1,56 @@
-package com.sharashkina_kontora.travel_agency.data_providers;
+package com.sharashkina_kontora.travel_agency.view.data_providers;
 
+import com.sharashkina_kontora.travel_agency.service.BasicPageableService;
 import com.vaadin.flow.component.crud.CrudFilter;
 import com.vaadin.flow.data.provider.AbstractBackEndDataProvider;
+import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.data.provider.SortDirection;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-public abstract class AbstractDataProvider<T, E> extends AbstractBackEndDataProvider<T, E> {
+@Slf4j
+public class DataProvider<T> extends AbstractBackEndDataProvider<T, CrudFilter> {
+    private final BasicPageableService<T> basicPageableService;
+
+    private Consumer<Long> sizeChangeListener;
+
+    public DataProvider(BasicPageableService<T> basicPageableService) {
+        this.basicPageableService = basicPageableService;
+    }
+
+    @Override
+    protected Stream<T> fetchFromBackEnd(Query<T, CrudFilter> query) {
+        if (query.getFilter().isPresent()) {
+            return basicPageableService.findAll().stream()
+                    .filter(predicate(query.getFilter().get()))
+                    .sorted(comparator(query.getFilter().get()));
+        } else {
+            int offset = query.getOffset();
+            int limit = query.getLimit();
+            log.debug("Limit: " + limit + ", Offset: " + offset);
+            Pageable pageable = PageRequest.of(offset, limit);
+            return basicPageableService.findAll(pageable).stream().skip(offset).limit(limit);
+        }
+    }
+
+    @Override
+    protected int sizeInBackEnd(Query<T, CrudFilter> query) {
+        long count = fetchFromBackEnd(query).count();
+
+        if (sizeChangeListener != null) {
+            sizeChangeListener.accept(count);
+        }
+        log.debug("Size: " + count);
+        return (int) count;
+    }
+
     public Predicate<T> predicate(CrudFilter filter) {
         return filter.getConstraints().entrySet().stream()
                 .map(constraint -> (Predicate<T>) t -> {
@@ -58,10 +100,10 @@ public abstract class AbstractDataProvider<T, E> extends AbstractBackEndDataProv
     }
 
     public void delete(T t) {
-
+        basicPageableService.delete(t);
     }
 
     public T save(T t) {
-        return null;
+        return basicPageableService.save(t);
     }
 }

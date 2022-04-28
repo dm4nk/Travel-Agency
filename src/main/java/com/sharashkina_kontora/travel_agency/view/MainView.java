@@ -54,14 +54,15 @@ public class MainView extends VerticalLayout {
     //userMenu
     private final MenuBar userMenu = new MenuBar();
     private final MenuItem showOrders = userMenu.addItem("Orders");
-    private final MenuItem logOut = userMenu.addItem("Log out");
+    private final MenuItem logUserOut = userMenu.addItem("Log out");
     private final MenuItem emailMenuButton = userMenu.addItem("");
     private final MenuItem toggleButtonAuthorizedMenu = userMenu.addItem(VaadinIcon.MOON.create());
     //adminMenu
     private final MenuBar adminMenu = new MenuBar();
-    private final MenuItem addTour = adminMenu.addItem("Add tour");
-    private final MenuItem addLocation = adminMenu.addItem("Add location");
-    private final MenuItem addFlight = adminMenu.addItem("Add tour");
+    private final MenuItem mostPopular = adminMenu.addItem("Most Popular Tour>");
+    private final MenuItem lessPopular = adminMenu.addItem("Less Popular Tour");
+    private final MenuItem cheapest = adminMenu.addItem("Find Cheapest Tour");
+    private final MenuItem logAdminOut = adminMenu.addItem("Log out");
     private final MenuItem toggleButtonUserMenu = adminMenu.addItem(VaadinIcon.MOON.create());
     //todo add profile component
     private final Label sure = new Label("Do you want to log out?");
@@ -142,13 +143,14 @@ public class MainView extends VerticalLayout {
     }
 
     private void createAdminMenu() {
+        logAdminOut.addClickListener(menuItemClickEvent -> performLogOut());
         toggleButtonUserMenu.addClickListener(menuItemClickEvent -> toggleTheme());
     }
 
     private MenuBar createUserMenu() {
         showOrders.addClickListener(menuItemClickEvent -> userPageComponent.initComponent(user));
         toggleButtonAuthorizedMenu.addClickListener(menuItemClickEvent -> toggleTheme());
-        logOut.addClickListener(menuItemClickEvent -> performLogOut());
+        logUserOut.addClickListener(menuItemClickEvent -> performLogOut());
         return userMenu;
     }
 

@@ -1,8 +1,9 @@
-package com.sharashkina_kontora.travel_agency.view.components.order;
+package com.sharashkina_kontora.travel_agency.view.components.user;
 
 import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Status;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
+import com.sharashkina_kontora.travel_agency.view.components.order.ShowOrderComponent;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;

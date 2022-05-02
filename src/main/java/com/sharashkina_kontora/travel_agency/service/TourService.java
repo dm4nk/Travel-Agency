@@ -10,4 +10,6 @@ public interface TourService extends BasicPageableService<Tour> {
     List<Tour> findLessPopular();
 
     List<Tour> findCheapest();
+
+    void updateFreePlaces(Tour tour, Integer freePlaces);
 }

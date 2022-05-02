@@ -16,7 +16,6 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 
-@ToString
 @Getter
 @Setter
 @NoArgsConstructor
@@ -94,5 +93,10 @@ public class User implements UserDetails, Serializable {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " (" + email + ")";
     }
 }

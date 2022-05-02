@@ -99,11 +99,11 @@ public class DataProvider<T> extends AbstractBackEndDataProvider<T, CrudFilter> 
         }
     }
 
-    public void delete(T t) {
+    public void delete(T t) throws Exception {
         basicPageableService.delete(t);
     }
 
-    public T save(T t) {
+    public T save(T t) throws Exception {
         return basicPageableService.save(t);
     }
 }

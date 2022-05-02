@@ -3,7 +3,10 @@ package com.sharashkina_kontora.travel_agency.service;
 import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.domain.User;
+import com.sharashkina_kontora.travel_agency.exceptions.NoFreePlacesException;
 import com.sharashkina_kontora.travel_agency.repository.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,9 +17,11 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final TourService tourService;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, TourService tourService) {
         this.orderRepository = orderRepository;
+        this.tourService = tourService;
     }
 
     /**
@@ -48,11 +53,13 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public Order save(Order order) {
+    public Order save(Order order) throws Exception {
         User user = order.getUser();
         user.getOrders().add(order);
 
         Tour tour = order.getTour();
+        if (tour.getFreePlaces() == tour.getOrders().size())
+            throw new NoFreePlacesException("No free places in tour " + tour);
         tour.getOrders().add(order);
 
         return orderRepository.save(order);
@@ -75,5 +82,10 @@ public class OrderServiceImpl implements OrderService {
         tour.getOrders().remove(order);
 
         orderRepository.delete(order);
+    }
+
+    @Override
+    public Page<Order> findAll(Pageable pageable) {
+        return orderRepository.findAll(pageable);
     }
 }

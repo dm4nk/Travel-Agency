@@ -5,10 +5,10 @@ import com.sharashkina_kontora.travel_agency.service.UserService;
 import com.sharashkina_kontora.travel_agency.view.components.AuthorizationComponent;
 import com.sharashkina_kontora.travel_agency.view.components.MainPageComponent;
 import com.sharashkina_kontora.travel_agency.view.components.RegistrationComponent;
-import com.sharashkina_kontora.travel_agency.view.components.UserPageComponent;
 import com.sharashkina_kontora.travel_agency.view.components.amin.AdminPage;
 import com.sharashkina_kontora.travel_agency.view.components.order.EditOrderComponent;
 import com.sharashkina_kontora.travel_agency.view.components.order.ShowOrderComponent;
+import com.sharashkina_kontora.travel_agency.view.components.user.UserPageComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -89,7 +89,7 @@ public class MainView extends VerticalLayout {
         configureComponents();
         configureLogOutDialog();
 
-        currentComponent = mainPageComponent;
+        currentComponent = mainPageComponent.initComponent(null);
 
         add(createUnauthorizedMenu(), currentComponent);
     }
@@ -100,7 +100,7 @@ public class MainView extends VerticalLayout {
         acceptLogOut.addClickListener(event -> {
             replace(userMenu, unauthorizedMenu);
             user = User.builder().build();
-            mainPageComponent.changeTextToMainPage();
+            //mainPageComponent.changeTextToMainPage();
 
             //should wipe out stored data
             UI.getCurrent().getSession().close();
@@ -144,6 +144,7 @@ public class MainView extends VerticalLayout {
 
     private void createAdminMenu() {
         logAdminOut.addClickListener(menuItemClickEvent -> performLogOut());
+
         toggleButtonUserMenu.addClickListener(menuItemClickEvent -> toggleTheme());
     }
 
@@ -160,9 +161,10 @@ public class MainView extends VerticalLayout {
 
     private void performLogIn() {
         if (user.getRole().getAuthority().equals("adm")) {
-            replace(mainPageComponent, adminPage);
+            replace(currentComponent, adminPage);
             replace(unauthorizedMenu, adminMenu);
         } else {
+            replace(currentComponent, mainPageComponent.initComponent(user));
             replace(unauthorizedMenu, userMenu);
             emailMenuButton.setText(user.getFirstName() + " " + user.getLastName());
         }

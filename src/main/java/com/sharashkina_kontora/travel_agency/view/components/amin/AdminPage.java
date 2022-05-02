@@ -1,11 +1,8 @@
 package com.sharashkina_kontora.travel_agency.view.components.amin;
 
-import com.sharashkina_kontora.travel_agency.domain.Flight;
-import com.sharashkina_kontora.travel_agency.domain.Location;
-import com.sharashkina_kontora.travel_agency.domain.Tour;
-import com.sharashkina_kontora.travel_agency.service.FlightService;
-import com.sharashkina_kontora.travel_agency.service.LocationService;
-import com.sharashkina_kontora.travel_agency.service.TourService;
+import com.sharashkina_kontora.travel_agency.domain.*;
+import com.sharashkina_kontora.travel_agency.service.*;
+import com.sharashkina_kontora.travel_agency.view.MainView;
 import com.sharashkina_kontora.travel_agency.view.data_providers.DataProvider;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
@@ -14,7 +11,10 @@ import com.vaadin.flow.component.crud.CrudEditor;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.listbox.MultiSelectListBox;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -37,25 +37,51 @@ public class AdminPage extends VerticalLayout {
     //location
     private final Crud<Location> locationCrud;
     private final LocationService locationService;
+    private final DataProvider<Location> locationDataProvider;
     //tour
     private final Crud<Tour> tourCrud;
     private final TourService tourService;
     private final ComboBox<Location> location = new ComboBox<>("location");
     private final MultiSelectListBox<Flight> flights = new MultiSelectListBox<>();
+    private final DataProvider<Tour> tourDataProvider;
     //flight
     private final Crud<Flight> flighCrud;
     private final FlightService flightService;
+    private final DataProvider<Flight> flightDataProvider;
+    //order
+    private final Crud<Order> orderCrud;
+    private final OrderService orderService;
+    private final ComboBox<User> user = new ComboBox<>("user");
+    private final ComboBox<Status> status = new ComboBox<>("status");
+    private final ComboBox<Tour> tour = new ComboBox<>("tour");
+    private final UserService userService;
+    private final DataProvider<Order> orderDataProvider;
 
-    public AdminPage(LocationService locationService, TourService tourService, FlightService flightService) {
+    private final Notification notificationError = new Notification();
+
+    public AdminPage(LocationService locationService, TourService tourService, FlightService flightService, OrderService orderService, UserService userService) {
         this.locationService = locationService;
         this.tourService = tourService;
         this.flightService = flightService;
+        this.orderService = orderService;
+        this.userService = userService;
+        this.orderDataProvider = new DataProvider<>(orderService);
+        this.flightDataProvider = new DataProvider<>(flightService);
+        this.tourDataProvider = new DataProvider<>(tourService);
+        this.locationDataProvider = new DataProvider<>(locationService);
 
         locationCrud = configureLocationCrud();
         tourCrud = configureTourCrud();
         flighCrud = configureFlightCrud();
+        orderCrud = configureOrderCrud();
 
-        add(locationCrud, tourCrud, flighCrud);
+        add(new H2("Locations"), locationCrud,
+                new H2("tours"), tourCrud,
+                new H2("flights"), flighCrud,
+                new H2("orders"), orderCrud,
+                notificationError);
+
+        initNotification();
     }
 
     private Crud<Location> configureLocationCrud() {
@@ -102,6 +128,22 @@ public class AdminPage extends VerticalLayout {
         setupFlightDataProvider(flightCrud);
 
         return flightCrud;
+    }
+
+    private Crud<Order> configureOrderCrud() {
+        final Crud<Order> orderCrud;
+        orderCrud = new Crud<>(
+                Order.class,
+                createOrderEditor()
+        );
+
+        setupOrderGrid(orderCrud);
+        setupOrderDataProvider(orderCrud);
+
+        orderCrud.addEditListener(event -> tour.setEnabled(false));
+        orderCrud.addNewListener(event -> tour.setEnabled(true));
+
+        return orderCrud;
     }
 
     private CrudEditor<Location> createLocationEditor() {
@@ -197,6 +239,30 @@ public class AdminPage extends VerticalLayout {
         return new BinderCrudEditor<>(binder, form);
     }
 
+    private CrudEditor<Order> createOrderEditor() {
+        tour.setItems(tourService.findAll());
+        user.setItems(userService.findAll());
+        status.setItems(Status.values());
+
+        FormLayout form = new FormLayout(tour, user, status);
+
+        Binder<Order> binder = new BeanValidationBinder<>(Order.class);
+
+        binder.forField(tour)
+                .asRequired()
+                .bind(Order::getTour, Order::setTour);
+
+        binder.forField(user)
+                .asRequired()
+                .bind(Order::getUser, Order::setUser);
+
+        binder.forField(status)
+                .asRequired()
+                .bind(Order::getStatus, Order::setStatus);
+
+        return new BinderCrudEditor<>(binder, form);
+    }
+
     private void setupLocationGrid(Crud<Location> locationCrud) {
         Grid<Location> grid = locationCrud.getGrid();
 
@@ -283,37 +349,140 @@ public class AdminPage extends VerticalLayout {
         );
     }
 
-    private void setupLocationDataProvider(Crud<Location> locationCrud) {
-        DataProvider<Location> dataProvider = new DataProvider<>(locationService);
-        locationCrud.setDataProvider(dataProvider);
-        locationCrud.addDeleteListener(deleteEvent ->
-                dataProvider.delete(deleteEvent.getItem())
+    private void setupOrderGrid(Crud<Order> orderCrud) {
+        Grid<Order> grid = orderCrud.getGrid();
+
+        List<String> visibleColumns = Arrays.asList(
+                "id",
+                "user",
+                "tour",
+                "status",
+                "vaadin-crud-edit-column"
         );
-        locationCrud.addSaveListener(saveEvent ->
-                dataProvider.save(saveEvent.getItem())
+
+        grid.getColumns().forEach(column -> {
+            String key = column.getKey();
+            if (!visibleColumns.contains(key)) {
+                grid.removeColumn(column);
+            }
+        });
+
+        grid.setColumnOrder(
+                grid.getColumnByKey("id"),
+                grid.getColumnByKey("user"),
+                grid.getColumnByKey("tour"),
+                grid.getColumnByKey("status"),
+                grid.getColumnByKey("vaadin-crud-edit-column")
+        );
+    }
+
+    private void setupLocationDataProvider(Crud<Location> locationCrud) {
+        locationCrud.setDataProvider(locationDataProvider);
+        locationCrud.addDeleteListener(deleteEvent -> {
+                    try {
+                        locationDataProvider.delete(deleteEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.error("Can't delete Location in use" + deleteEvent.getItem());
+                        notificationError.setText("Can't delete Location in use");
+                        notificationError.open();
+                    }
+                    tourDataProvider.refreshAll();
+                }
+        );
+        locationCrud.addSaveListener(saveEvent -> {
+                    try {
+                        locationDataProvider.save(saveEvent.getItem());
+                        log.debug("Saved location " + saveEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    tourDataProvider.refreshAll();
+                }
         );
     }
 
     private void setupTourDataProvider(Crud<Tour> tourCrud) {
-        DataProvider<Tour> dataProvider = new DataProvider<>(tourService);
-        tourCrud.setDataProvider(dataProvider);
-        tourCrud.addDeleteListener(deleteEvent ->
-                dataProvider.delete(deleteEvent.getItem())
+        tourCrud.setDataProvider(tourDataProvider);
+        tourCrud.addDeleteListener(deleteEvent -> {
+                    try {
+                        tourDataProvider.delete(deleteEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    orderDataProvider.refreshAll();
+                }
         );
-        tourCrud.addSaveListener(saveEvent ->
-                dataProvider.save(saveEvent.getItem())
+        tourCrud.addSaveListener(saveEvent -> {
+                    try {
+                        tourDataProvider.save(saveEvent.getItem());
+                        log.debug("Saved tour " + saveEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    orderDataProvider.refreshAll();
+                }
         );
     }
 
-
     private void setupFlightDataProvider(Crud<Flight> flightCrud) {
-        DataProvider<Flight> dataProvider = new DataProvider<>(flightService);
-        flightCrud.setDataProvider(dataProvider);
-        flightCrud.addDeleteListener(deleteEvent ->
-                dataProvider.delete(deleteEvent.getItem())
+        flightCrud.setDataProvider(flightDataProvider);
+        flightCrud.addDeleteListener(deleteEvent -> {
+                    try {
+                        flightDataProvider.delete(deleteEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.error("Can't delete Flight in use" + deleteEvent.getItem());
+                        notificationError.setText("Can't delete Flight in use");
+                        notificationError.open();
+                    }
+                    tourDataProvider.refreshAll();
+                }
         );
-        flightCrud.addSaveListener(saveEvent ->
-                dataProvider.save(saveEvent.getItem())
+        flightCrud.addSaveListener(saveEvent -> {
+                    try {
+                        flightDataProvider.save(saveEvent.getItem());
+                        log.debug("Saved flight " + saveEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    tourDataProvider.refreshAll();
+                }
         );
+    }
+
+    private void setupOrderDataProvider(Crud<Order> orderCrud) {
+        orderCrud.setDataProvider(orderDataProvider);
+        orderCrud.addDeleteListener(deleteEvent ->
+                {
+                    try {
+                        orderDataProvider.delete(deleteEvent.getItem());
+                        log.debug("Deleted order " + deleteEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    tourDataProvider.refreshAll();
+                }
+        );
+        orderCrud.addSaveListener(saveEvent ->
+                {
+                    try {
+                        orderDataProvider.save(saveEvent.getItem());
+                        log.debug("Saved order " + saveEvent.getItem());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.error("No free spaces left in tour " + saveEvent.getItem());
+                        notificationError.setText("No free spaces left in tour");
+                        notificationError.open();
+                    }
+                    tourDataProvider.refreshAll();
+                }
+        );
+    }
+
+    private void initNotification() {
+        notificationError.addThemeVariants(NotificationVariant.LUMO_ERROR);
+        notificationError.setPosition(Notification.Position.BOTTOM_CENTER);
+        notificationError.setDuration(MainView.NOTIFICATION_DURATION);
     }
 }

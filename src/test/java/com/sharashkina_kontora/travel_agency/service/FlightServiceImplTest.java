@@ -73,7 +73,7 @@ class FlightServiceImplTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws Exception {
         flightService.delete(flight);
 
         verify(flightRepository, times(1)).delete(flight);

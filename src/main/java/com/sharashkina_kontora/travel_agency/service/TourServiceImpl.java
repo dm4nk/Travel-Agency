@@ -64,6 +64,11 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
+    public void updateFreePlaces(Tour tour, Integer freePlaces) {
+        tourRepository.updateFreePlaces(tour.getId(), freePlaces);
+    }
+
+    @Override
     public Page<Tour> findAll(Pageable pageable) {
         return tourRepository.findAll(pageable);
     }

@@ -13,7 +13,9 @@ import com.sharashkina_kontora.travel_agency.view.components.user.UserPageCompon
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
@@ -27,6 +29,7 @@ import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Comparator;
@@ -36,6 +39,7 @@ import java.util.Comparator;
 @PageTitle("Travel Agency")
 @Theme(themeFolder = "my-theme")
 @CssImport("./styles/styles.css")
+@Slf4j
 public class MainView extends VerticalLayout {
     //constants
     public static final Integer NOTIFICATION_DURATION = 3000;
@@ -60,8 +64,9 @@ public class MainView extends VerticalLayout {
     //userMenu
     private final MenuBar userMenu = new MenuBar();
     private final MenuItem showOrders = userMenu.addItem("Orders");
-    private final MenuItem logUserOut = userMenu.addItem("Log out");
+    //private final MenuItem logUserOut = userMenu.addItem("Log out");
     private final MenuItem emailMenuButton = userMenu.addItem("");
+    private final SubMenu emailMenuButtonSubMenu = emailMenuButton.getSubMenu();
     private final MenuItem toggleButtonAuthorizedMenu = userMenu.addItem(VaadinIcon.MOON.create());
     //adminMenu
     private final MenuBar adminMenu = new MenuBar();
@@ -73,10 +78,7 @@ public class MainView extends VerticalLayout {
 
     private final Notification tourNotification = new Notification();
     //todo add profile component
-    private final Label sure = new Label("Do you want to log out?");
-    private final Button acceptLogOut = new Button("Accept");
-    private final Button cancelLogOut = new Button("Cancel");
-    private final Dialog logOutDialog = new Dialog(new VerticalLayout(sure, new HorizontalLayout(acceptLogOut, cancelLogOut)));
+    ConfirmDialog logOutDialog = new ConfirmDialog();
     //menu
     private final Component currentComponent;
     //user
@@ -105,18 +107,15 @@ public class MainView extends VerticalLayout {
     }
 
     private void configureLogOutDialog() {
-        acceptLogOut.getElement().getThemeList().add("error");
-
-        acceptLogOut.addClickListener(event -> {
-            replace(userMenu, unauthorizedMenu);
-            user = User.builder().build();
-            //mainPageComponent.changeTextToMainPage();
-
-            //should wipe out stored data
+        logOutDialog.setHeader("Log out");
+        logOutDialog.setText("Are you sure you want to log out?");
+        logOutDialog.setCancelable(true);
+        logOutDialog.setConfirmText("Log out");
+        logOutDialog.setConfirmButtonTheme("error primary");
+        logOutDialog.addConfirmListener(event -> {
             UI.getCurrent().getSession().close();
             SecurityContextHolder.clearContext();
         });
-        cancelLogOut.addClickListener(event -> logOutDialog.close());
     }
 
     private void configureComponents() {
@@ -196,7 +195,26 @@ public class MainView extends VerticalLayout {
     private MenuBar createUserMenu() {
         showOrders.addClickListener(menuItemClickEvent -> userPageComponent.initComponent(user));
         toggleButtonAuthorizedMenu.addClickListener(menuItemClickEvent -> toggleTheme());
-        logUserOut.addClickListener(menuItemClickEvent -> performLogOut());
+        emailMenuButtonSubMenu.addItem("Log out", menuItemClickEvent -> logOutDialog.open());
+
+        ConfirmDialog deleteDialog = new ConfirmDialog();
+        deleteDialog.setHeader("Deleting account");
+        deleteDialog.setText("All orders will be removed from your account. Are you sure?");
+        deleteDialog.setCancelable(true);
+        deleteDialog.setConfirmText("Delete");
+        deleteDialog.setConfirmButtonTheme("error primary");
+        deleteDialog.addConfirmListener(event -> {
+            try {
+                userService.delete(user);
+                UI.getCurrent().getSession().close();
+                SecurityContextHolder.clearContext();
+            } catch (Exception e) {
+                log.debug("Error deleting user");
+                e.printStackTrace();
+            }
+        });
+
+        emailMenuButtonSubMenu.addItem("Delete account", event -> deleteDialog.open());
         return userMenu;
     }
 

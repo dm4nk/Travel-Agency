@@ -40,6 +40,11 @@ public class AuthorizationComponent extends LoginForm implements KeyNotifier {
                 return;
             }
 
+            if(userDetails == null){
+                setError(true);
+                return;
+            }
+
             if (bCryptPasswordEncoder.matches(loginEvent.getPassword(), userDetails.getPassword())) {
                 log.debug("Log In Succeeded");
                 setError(false);

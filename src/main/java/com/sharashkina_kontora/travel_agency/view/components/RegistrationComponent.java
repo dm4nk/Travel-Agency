@@ -55,9 +55,21 @@ public class RegistrationComponent extends FormLayout implements KeyNotifier {
         initBinder();
 
         confirm.getElement().getThemeList().add("primary");
-        addKeyPressListener(Key.ENTER, e -> confirm());
+        addKeyPressListener(Key.ENTER, e -> {
+            try {
+                confirm();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        confirm.addClickListener(e -> confirm());
+        confirm.addClickListener(e -> {
+            try {
+                confirm();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         cancel.addClickListener(e -> dialog.close());
     }
 
@@ -100,7 +112,7 @@ public class RegistrationComponent extends FormLayout implements KeyNotifier {
         emailField.focus();
     }
 
-    private void confirm() {
+    private void confirm() throws Exception {
         if (passwordField1.getValue().equals(passwordField2.getValue()))
             if (binder.validate().isOk()) {
                 userService.save(user);

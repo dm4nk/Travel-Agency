@@ -1,10 +1,9 @@
-package com.sharashkina_kontora.travel_agency.view.components;
+package com.sharashkina_kontora.travel_agency.view.components.user;
 
 import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Status;
 import com.sharashkina_kontora.travel_agency.domain.User;
 import com.sharashkina_kontora.travel_agency.view.components.order.EditOrderComponent;
-import com.sharashkina_kontora.travel_agency.view.components.order.ShowAllUserOrdersComponent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H4;
@@ -32,9 +31,9 @@ public class UserPageComponent extends VerticalLayout {
     public void initComponent(User user) {
         removeAll();
         add(add);
-        add.addClickListener(menuItemClickEvent -> editOrderComponent.editOrder(Order.builder().user(user).status(Status.PLANNED).build()));
+        add.addClickListener(menuItemClickEvent -> editOrderComponent.editOrder(Order.builder().user(user).status(Status.PLANNED).build(), null));
         user.getOrders().forEach(order -> add(showOrderComponent.initComponent(order)));
-        if(user.getOrders().isEmpty())
+        if (user.getOrders().isEmpty())
             add(new H4("No orders yet..."));
         dialog.open();
         dialog.add(this);

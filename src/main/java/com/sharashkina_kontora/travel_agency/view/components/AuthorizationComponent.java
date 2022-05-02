@@ -28,6 +28,7 @@ public class AuthorizationComponent extends LoginForm implements KeyNotifier {
     private AuthorizationEndHandler authorizationEndHandler;
 
     public AuthorizationComponent(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.setForgotPasswordButtonVisible(false);
 
         this.addLoginListener(loginEvent -> {
             UserDetails userDetails;

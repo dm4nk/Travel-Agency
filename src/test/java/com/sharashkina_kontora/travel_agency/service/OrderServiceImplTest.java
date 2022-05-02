@@ -4,6 +4,7 @@ import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Status;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.domain.User;
+import com.sharashkina_kontora.travel_agency.exceptions.NoFreePlacesException;
 import com.sharashkina_kontora.travel_agency.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -86,7 +87,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void save() {
+    void save() throws Exception {
         when(orderRepository.save(order)).thenReturn(order);
 
         Order result = orderService.save(order);
@@ -96,7 +97,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws Exception {
         orderService.delete(order);
 
         verify(orderRepository, times(1)).delete(order);

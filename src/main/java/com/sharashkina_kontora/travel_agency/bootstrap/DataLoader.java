@@ -2,6 +2,7 @@ package com.sharashkina_kontora.travel_agency.bootstrap;
 
 import com.sharashkina_kontora.travel_agency.domain.*;
 import com.sharashkina_kontora.travel_agency.service.*;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -29,6 +30,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         this.orderService = orderService;
     }
 
+    @SneakyThrows
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         Location location = Location.builder()
@@ -78,7 +80,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Tour tour1 = Tour.builder()
                 .name("NICE TOUR")
-                .freePlaces(1)
+                .freePlaces(3)
                 .price(1)
                 .duration(1L)
                 .location(location)
@@ -118,8 +120,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         User user = User.builder()
                 .firstName("Lilya")
+                .email("lil@gmaill.com")
                 .password("123")
-                .role(role)
+                .role(role2)
                 .build();
 
         userService.save(user);
@@ -141,29 +144,29 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         userService.save(user3);
 
-//        Order order1 = Order.builder()
-//                .user(user3)
-//                .tour(tour1)
-//                .status(Status.PLANNED)
-//                .build();
-//
-//        Order order2 = Order.builder()
-//                .user(user3)
-//                .tour(tour1)
-//                .status(Status.PLANNED)
-//                .build();
-//
-//        Order order3 = Order.builder()
-//                .user(user3)
-//                .tour(tour2)
-//                .status(Status.PLANNED)
-//                .build();
-//
-//        orderService.save(order1);
-//        orderService.save(order2);
-//        orderService.save(order3);
+        Order order1 = Order.builder()
+                .user(user)
+                .tour(tour1)
+                .status(Status.PLANNED)
+                .build();
 
-        //orderService.delete(order1);
+        Order order2 = Order.builder()
+                .user(user)
+                .tour(tour1)
+                .status(Status.PLANNED)
+                .build();
+
+        Order order3 = Order.builder()
+                .user(user)
+                .tour(tour2)
+                .status(Status.PLANNED)
+                .build();
+
+        orderService.save(order1);
+        orderService.save(order2);
+        orderService.save(order3);
+
+//        orderService.delete(order1);
 
         //userService.delete(userService.findById(1L).get());
     }

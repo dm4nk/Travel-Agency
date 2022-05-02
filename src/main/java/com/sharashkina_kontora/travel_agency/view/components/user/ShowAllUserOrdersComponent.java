@@ -1,9 +1,9 @@
-package com.sharashkina_kontora.travel_agency.view.components.order;
+package com.sharashkina_kontora.travel_agency.view.components.user;
 
 import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Status;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
-import com.sharashkina_kontora.travel_agency.domain.User;
+import com.sharashkina_kontora.travel_agency.view.components.order.ShowOrderComponent;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
@@ -12,7 +12,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,7 +25,7 @@ public class ShowAllUserOrdersComponent extends HorizontalLayout {
         this.showOrderComponent = showOrderComponent;
     }
 
-    public HorizontalLayout initComponent(Order order){
+    public HorizontalLayout initComponent(Order order) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.getElement().getClassList().add("order-component");
         layout.setSizeFull();
@@ -42,10 +41,10 @@ public class ShowAllUserOrdersComponent extends HorizontalLayout {
                 new H4("duration: " + tour.getDuration()));
 
         H1 id = new H1("ID:" + order.getId());
-        if(order.getStatus() == Status.DONE)
+        if (order.getStatus() == Status.DONE)
             id.getElement().getThemeList().add("success");
 
-        if(order.getStatus() == Status.DONE)
+        if (order.getStatus() == Status.DONE)
             id.getElement().getThemeList().add("error");
 
         layout.add(id, leftPart, rightPart);

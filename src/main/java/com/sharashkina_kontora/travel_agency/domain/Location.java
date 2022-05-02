@@ -23,7 +23,7 @@ public class Location {
     String city;
     String country;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "location")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "location")
     Set<Tour> tours = new HashSet<>();
 
     @Builder

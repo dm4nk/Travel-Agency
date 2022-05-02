@@ -8,7 +8,7 @@ public interface BasicService<T> {
 
     Optional<T> findById(Long id);
 
-    T save(T t);
+    T save(T t) throws Exception;
 
-    void delete(T t);
+    void delete(T t) throws Exception;
 }

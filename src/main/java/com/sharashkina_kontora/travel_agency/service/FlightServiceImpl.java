@@ -1,7 +1,10 @@
 package com.sharashkina_kontora.travel_agency.service;
 
 import com.sharashkina_kontora.travel_agency.domain.Flight;
+import com.sharashkina_kontora.travel_agency.exceptions.FlightInUseException;
 import com.sharashkina_kontora.travel_agency.repository.FlightRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -57,7 +60,13 @@ public class FlightServiceImpl implements FlightService {
      */
     @Override
     @Transactional
-    public void delete(Flight flight) {
+    public void delete(Flight flight) throws Exception {
+        if (!flight.getTours().isEmpty()) throw new FlightInUseException("Flight in use");
         flightRepository.delete(flight);
+    }
+
+    @Override
+    public Page<Flight> findAll(Pageable pageable) {
+        return flightRepository.findAll(pageable);
     }
 }

@@ -25,13 +25,13 @@ public class Tour {
     Integer price;
     Long duration;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     Location location;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "tour")
     Set<Order> orders = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     Set<Flight> flights = new HashSet<>();
 
     @Builder
@@ -61,7 +61,7 @@ public class Tour {
     public String toString() {
         return name +
                 ", $" + price +
-                ", " + duration + " days"+
+                ", " + duration + " days" +
                 ", flights:" + flights;
     }
 }

@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +73,7 @@ class FlightServiceImplTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws Exception {
         flightService.delete(flight);
 
         verify(flightRepository, times(1)).delete(flight);

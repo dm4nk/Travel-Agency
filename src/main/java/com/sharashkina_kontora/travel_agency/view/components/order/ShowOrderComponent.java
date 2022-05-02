@@ -7,8 +7,6 @@ import com.sharashkina_kontora.travel_agency.service.OrderService;
 import com.sharashkina_kontora.travel_agency.view.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;

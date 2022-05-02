@@ -52,15 +52,27 @@ public class EditOrderComponent extends FormLayout implements KeyNotifier {
 
         save.getElement().getThemeList().add("primary");
 
-        addKeyPressListener(Key.ENTER, e -> save());
+        addKeyPressListener(Key.ENTER, e -> {
+            try {
+                save();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        save.addClickListener(e -> save());
+        save.addClickListener(e -> {
+            try {
+                save();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
         cancel.addClickListener(e -> dialog.close());
 
         initNotification();
     }
 
-    public void editOrder(Order newOrder) {
+    public void editOrder(Order newOrder, Tour withTour) {
         if (newOrder == null) {
             return;
         }
@@ -71,19 +83,17 @@ public class EditOrderComponent extends FormLayout implements KeyNotifier {
             this.order = newOrder;
         }
 
-        if(order.getTour() != null){
-            tour.setEnabled(false);
-        }
-
         tour.setItems(tourService.findAll());
-
+        tour.setEnabled(withTour == null);
         binder.setBean(order);
+
+        tour.setValue(withTour);
 
         dialog.open();
         dialog.add(this);
     }
 
-    private void save() {
+    private void save() throws Exception {
         if (binder.validate().isOk()) {
             orderService.save(order);
             changeHandler.onChange(order.getUser());

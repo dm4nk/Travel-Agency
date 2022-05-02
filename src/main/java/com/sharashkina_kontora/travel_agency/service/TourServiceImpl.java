@@ -44,13 +44,13 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public List<Tour> findMostPopular() {
+    public List<Tour> findLessPopular() {
         return findAll().stream().sorted(Comparator.comparingInt(o -> o.getOrders().size()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Tour> findLessPopular() {
+    public List<Tour> findMostPopular() {
         List<Tour> mostPopular = findMostPopular();
         Collections.reverse(mostPopular);
         return mostPopular;

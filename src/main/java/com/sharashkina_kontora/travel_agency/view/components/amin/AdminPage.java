@@ -8,9 +8,10 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
 import com.vaadin.flow.component.crud.Crud;
 import com.vaadin.flow.component.crud.CrudEditor;
-import com.vaadin.flow.component.datetimepicker.DateTimePicker;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.notification.Notification;
@@ -76,10 +77,9 @@ public class AdminPage extends VerticalLayout {
         orderCrud = configureOrderCrud();
 
         add(new H2("Locations"), locationCrud,
-                new H2("tours"), tourCrud,
-                new H2("flights"), flighCrud,
-                new H2("orders"), orderCrud,
-                notificationError);
+                new H2("Tours"), tourCrud,
+                new H2("Flights"), flighCrud,
+                new H2("Orders"), orderCrud);
 
         initNotification();
     }
@@ -212,7 +212,7 @@ public class AdminPage extends VerticalLayout {
         TextField name = new TextField("name");
         TextField departureAirport = new TextField("departureAirport");
         TextField arrivalAirport = new TextField("arrivalAirport");
-        DateTimePicker date = new DateTimePicker("date");
+        DatePicker date = new DatePicker("date");
 
         FormLayout form = new FormLayout(name, departureAirport, arrivalAirport, date);
 
@@ -285,6 +285,8 @@ public class AdminPage extends VerticalLayout {
                 grid.getColumnByKey("city"),
                 grid.getColumnByKey("vaadin-crud-edit-column")
         );
+
+        grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
     }
 
     private void setupTourGrid(Crud<Tour> tourCrud) {
@@ -318,6 +320,8 @@ public class AdminPage extends VerticalLayout {
                 grid.getColumnByKey("flights"),
                 grid.getColumnByKey("vaadin-crud-edit-column")
         );
+
+        grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
     }
 
     private void setupFlightGrid(Crud<Flight> flightCrud) {
@@ -347,6 +351,8 @@ public class AdminPage extends VerticalLayout {
                 grid.getColumnByKey("date"),
                 grid.getColumnByKey("vaadin-crud-edit-column")
         );
+
+        grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
     }
 
     private void setupOrderGrid(Crud<Order> orderCrud) {
@@ -374,6 +380,8 @@ public class AdminPage extends VerticalLayout {
                 grid.getColumnByKey("status"),
                 grid.getColumnByKey("vaadin-crud-edit-column")
         );
+
+        grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
     }
 
     private void setupLocationDataProvider(Crud<Location> locationCrud) {
@@ -383,9 +391,8 @@ public class AdminPage extends VerticalLayout {
                         locationDataProvider.delete(deleteEvent.getItem());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        log.error("Can't delete Location in use" + deleteEvent.getItem());
-                        notificationError.setText("Can't delete Location in use");
-                        notificationError.open();
+                        log.error("Can't delete Location in use " + deleteEvent.getItem());
+                        openTourDialogWithText("Can't delete Location in use");
                     }
                     tourDataProvider.refreshAll();
                 }
@@ -432,9 +439,8 @@ public class AdminPage extends VerticalLayout {
                         flightDataProvider.delete(deleteEvent.getItem());
                     } catch (Exception e) {
                         e.printStackTrace();
-                        log.error("Can't delete Flight in use" + deleteEvent.getItem());
-                        notificationError.setText("Can't delete Flight in use");
-                        notificationError.open();
+                        log.error("Can't delete Flight in use " + deleteEvent.getItem());
+                        openTourDialogWithText("Can't delete Flight in use");
                     }
                     tourDataProvider.refreshAll();
                 }
@@ -472,17 +478,22 @@ public class AdminPage extends VerticalLayout {
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.error("No free spaces left in tour " + saveEvent.getItem());
-                        notificationError.setText("No free spaces left in tour");
-                        notificationError.open();
+                        openTourDialogWithText("No free spaces left in tour");
                     }
                     tourDataProvider.refreshAll();
                 }
         );
     }
 
+    private void openTourDialogWithText(String text) {
+        notificationError.setText(text);
+        notificationError.open();
+    }
+
     private void initNotification() {
         notificationError.addThemeVariants(NotificationVariant.LUMO_ERROR);
         notificationError.setPosition(Notification.Position.BOTTOM_CENTER);
         notificationError.setDuration(MainView.NOTIFICATION_DURATION);
+        notificationError.setText("Can't delete item in use");
     }
 }

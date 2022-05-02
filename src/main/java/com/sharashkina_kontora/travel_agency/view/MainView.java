@@ -1,6 +1,7 @@
 package com.sharashkina_kontora.travel_agency.view;
 
 import com.sharashkina_kontora.travel_agency.domain.User;
+import com.sharashkina_kontora.travel_agency.service.TourService;
 import com.sharashkina_kontora.travel_agency.service.UserService;
 import com.sharashkina_kontora.travel_agency.view.components.AuthorizationComponent;
 import com.sharashkina_kontora.travel_agency.view.components.MainPageComponent;
@@ -18,6 +19,8 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ThemeList;
@@ -25,6 +28,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Comparator;
 
 
 @Route("")
@@ -37,6 +42,7 @@ public class MainView extends VerticalLayout {
 
     //services
     private final UserService userService;
+    private final TourService tourService;
 
     //components
     private final RegistrationComponent registrationComponent;
@@ -59,11 +65,13 @@ public class MainView extends VerticalLayout {
     private final MenuItem toggleButtonAuthorizedMenu = userMenu.addItem(VaadinIcon.MOON.create());
     //adminMenu
     private final MenuBar adminMenu = new MenuBar();
-    private final MenuItem mostPopular = adminMenu.addItem("Most Popular Tour>");
+    private final MenuItem mostPopular = adminMenu.addItem("Most Popular Tour");
     private final MenuItem lessPopular = adminMenu.addItem("Less Popular Tour");
-    private final MenuItem cheapest = adminMenu.addItem("Find Cheapest Tour");
+    private final MenuItem cheapest = adminMenu.addItem("Cheapest Tour");
     private final MenuItem logAdminOut = adminMenu.addItem("Log out");
     private final MenuItem toggleButtonUserMenu = adminMenu.addItem(VaadinIcon.MOON.create());
+
+    private final Notification tourNotification = new Notification();
     //todo add profile component
     private final Label sure = new Label("Do you want to log out?");
     private final Button acceptLogOut = new Button("Accept");
@@ -74,8 +82,9 @@ public class MainView extends VerticalLayout {
     //user
     private User user;
 
-    public MainView(UserService userService, RegistrationComponent registrationComponent, AuthorizationComponent authorizationComponent, MainPageComponent mainPageComponent, UserPageComponent userPageComponent, EditOrderComponent editOrderComponent, ShowOrderComponent showOrderComponent, AdminPage adminPage) {
+    public MainView(UserService userService, TourService tourService, RegistrationComponent registrationComponent, AuthorizationComponent authorizationComponent, MainPageComponent mainPageComponent, UserPageComponent userPageComponent, EditOrderComponent editOrderComponent, ShowOrderComponent showOrderComponent, AdminPage adminPage) {
         this.userService = userService;
+        this.tourService = tourService;
         this.registrationComponent = registrationComponent;
         this.authorizationComponent = authorizationComponent;
         this.mainPageComponent = mainPageComponent;
@@ -88,6 +97,7 @@ public class MainView extends VerticalLayout {
         createAdminMenu();
         configureComponents();
         configureLogOutDialog();
+        initNotification();
 
         currentComponent = mainPageComponent.initComponent(null);
 
@@ -144,6 +154,41 @@ public class MainView extends VerticalLayout {
 
     private void createAdminMenu() {
         logAdminOut.addClickListener(menuItemClickEvent -> performLogOut());
+        mostPopular.addClickListener(event -> {
+            StringBuilder mostPopularToursId = new StringBuilder();
+            tourService
+                    .findAll()
+                    .stream()
+                    .sorted((o1, o2) -> o2.getOrders().size() - o1.getOrders().size())
+                    .limit(5)
+                    .forEach(a -> mostPopularToursId.append(a.getId()).append(", "));
+
+            openTourDialogWithText("Most Popular Tours Id: " + mostPopularToursId + "...");
+        });
+
+        lessPopular.addClickListener(event -> {
+            StringBuilder mostPopularToursId = new StringBuilder();
+            tourService
+                    .findAll()
+                    .stream()
+                    .sorted(Comparator.comparingInt(o -> o.getOrders().size()))
+                    .limit(5)
+                    .forEach(a -> mostPopularToursId.append(a.getId()).append(", "));
+
+            openTourDialogWithText("Less Popular Tours Id: " + mostPopularToursId + "...");
+        });
+
+        cheapest.addClickListener(event -> {
+            StringBuilder mostPopularToursId = new StringBuilder();
+            tourService
+                    .findAll()
+                    .stream()
+                    .sorted(Comparator.comparingDouble(o -> o.getPrice() / (double) o.getDuration()))
+                    .limit(5)
+                    .forEach(a -> mostPopularToursId.append(a.getId()).append(", "));
+
+            openTourDialogWithText("Cheapest Tours Id: " + mostPopularToursId + "...");
+        });
 
         toggleButtonUserMenu.addClickListener(menuItemClickEvent -> toggleTheme());
     }
@@ -178,5 +223,16 @@ public class MainView extends VerticalLayout {
         } else {
             themeList.add("dark");
         }
+    }
+
+    private void openTourDialogWithText(String text) {
+        tourNotification.setText(text);
+        tourNotification.open();
+    }
+
+    private void initNotification() {
+        tourNotification.addThemeVariants(NotificationVariant.LUMO_CONTRAST);
+        tourNotification.setPosition(Notification.Position.BOTTOM_CENTER);
+        tourNotification.setDuration(NOTIFICATION_DURATION);
     }
 }

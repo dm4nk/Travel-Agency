@@ -28,7 +28,7 @@ class FlightServiceImplTest {
     FlightServiceImpl flightService;
 
     Flight flight;
-    LocalDateTime localDate = LocalDateTime.now();
+    LocalDate localDate = LocalDate.now();
 
     @BeforeEach
     void setUp() {

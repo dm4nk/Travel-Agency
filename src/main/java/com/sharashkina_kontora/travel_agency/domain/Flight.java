@@ -4,7 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,13 +24,13 @@ public class Flight {
     String name;
     String departureAirport;
     String arrivalAirport;
-    LocalDateTime date;
+    LocalDate date;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "flights")
     Set<Tour> tours = new HashSet<>();
 
     @Builder
-    public Flight(Long id, String name, String departureAirport, String arrivalAirport, LocalDateTime date) {
+    public Flight(Long id, String name, String departureAirport, String arrivalAirport, LocalDate date) {
         this.id = id;
         this.name = name;
         this.departureAirport = departureAirport;

@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Component
@@ -49,28 +49,28 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .name("flight1")
                 .departureAirport("Kurumoch")
                 .arrivalAirport("Domodedovo")
-                .date(LocalDateTime.now())
+                .date(LocalDate.now())
                 .build();
 
         Flight flight2 = Flight.builder()
                 .name("flight3")
                 .departureAirport("Domodedovo")
                 .arrivalAirport("Pulkovo")
-                .date(LocalDateTime.now())
+                .date(LocalDate.now())
                 .build();
 
         Flight flight3 = Flight.builder()
                 .name("flight2")
                 .departureAirport("Pulkovo")
                 .arrivalAirport("Kurumoch")
-                .date(LocalDateTime.now())
+                .date(LocalDate.now())
                 .build();
 
         Flight flight4 = Flight.builder()
                 .name("flight4")
                 .departureAirport("Pulkovo")
                 .arrivalAirport("Kurumoch")
-                .date(LocalDateTime.now())
+                .date(LocalDate.now())
                 .build();
 
         Flight savedFlight = flightService.save(flight);

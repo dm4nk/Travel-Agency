@@ -40,7 +40,7 @@ public class AuthorizationComponent extends LoginForm implements KeyNotifier {
                 return;
             }
 
-            if(userDetails == null){
+            if (userDetails == null) {
                 setError(true);
                 return;
             }

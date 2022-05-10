@@ -4,7 +4,6 @@ import com.sharashkina_kontora.travel_agency.domain.Order;
 import com.sharashkina_kontora.travel_agency.domain.Status;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.domain.User;
-import com.sharashkina_kontora.travel_agency.exceptions.NoFreePlacesException;
 import com.sharashkina_kontora.travel_agency.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

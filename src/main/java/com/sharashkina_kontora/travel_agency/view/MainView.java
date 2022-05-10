@@ -12,20 +12,16 @@ import com.sharashkina_kontora.travel_agency.view.components.order.ShowOrderComp
 import com.sharashkina_kontora.travel_agency.view.components.user.UserPageComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
@@ -39,6 +35,10 @@ import java.util.Comparator;
 @PageTitle("Travel Agency")
 @Theme(themeFolder = "my-theme")
 @CssImport("./styles/styles.css")
+@StyleSheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+@StyleSheet("https://fonts.gstatic.com")
+@StyleSheet("https://fonts.googleapis.com")
+@StyleSheet("https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap")
 @Slf4j
 public class MainView extends VerticalLayout {
     //constants
@@ -77,10 +77,10 @@ public class MainView extends VerticalLayout {
     private final MenuItem toggleButtonUserMenu = adminMenu.addItem(VaadinIcon.MOON.create());
 
     private final Notification tourNotification = new Notification();
-    //todo add profile component
-    ConfirmDialog logOutDialog = new ConfirmDialog();
     //menu
     private final Component currentComponent;
+    //todo add profile component
+    ConfirmDialog logOutDialog = new ConfirmDialog();
     //user
     private User user;
 
@@ -100,6 +100,7 @@ public class MainView extends VerticalLayout {
         configureComponents();
         configureLogOutDialog();
         initNotification();
+        toggleTheme();
 
         currentComponent = mainPageComponent.initComponent(null);
 
@@ -234,13 +235,7 @@ public class MainView extends VerticalLayout {
     }
 
     private void toggleTheme() {
-        ThemeList themeList = UI.getCurrent().getElement().getThemeList();
-
-        if (themeList.contains("dark")) {
-            themeList.remove("dark");
-        } else {
-            themeList.add("dark");
-        }
+        getElement().executeJs("document.querySelector('html').hasAttribute('theme') && document.querySelector('html').getAttribute('theme').includes('dark') ? document.querySelector('html').setAttribute('theme',document.querySelector('html').getAttribute('theme').replaceAll('dark','')) : document.querySelector('html').setAttribute('theme', 'dark');");
     }
 
     private void openTourDialogWithText(String text) {

@@ -23,6 +23,13 @@
   --lumo-error-color: hsl(0, 81%, 50%);
   --lumo-success-color: hsl(159, 76%, 57%);
   --lumo-success-contrast-color: hsl(159, 29%, 10%);
+  --color-gray-0: #f8f8f8;
+  --color-gray-1: #6c7983;
+  --color-gray-2: #6c7983;
+  --color-gray-3: #6c7983;
+  --color-gray-4: #454e56;
+  --color-gray-5: #f8f8f8;
+  --color-gray-6: #12181b;
 }
 
 
@@ -51,4 +58,10 @@
   --lumo-error-color: hsl(0, 81%, 50%);
   --lumo-success-color: hsl(159, 76%, 57%);
   --lumo-success-contrast-color: hsl(159, 29%, 10%);
+  --color-gray-1: #dbe1ef;
+  --color-gray-2: #d2becd;
+  --color-gray-3: #6c7983;
+  --color-gray-4: #454e56;
+  --color-gray-5: #2a2e35;
+  --color-gray-6: #12181b;
 }

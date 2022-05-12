@@ -418,6 +418,7 @@ public class AdminPage extends VerticalLayout {
                         e.printStackTrace();
                     }
                     orderDataProvider.refreshAll();
+                    flightDataProvider.refreshAll();
                 }
         );
         tourCrud.addSaveListener(saveEvent -> {
@@ -428,6 +429,7 @@ public class AdminPage extends VerticalLayout {
                         e.printStackTrace();
                     }
                     orderDataProvider.refreshAll();
+                    flightDataProvider.refreshAll();
                 }
         );
     }

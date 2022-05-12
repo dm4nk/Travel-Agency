@@ -1,5 +1,6 @@
 package com.sharashkina_kontora.travel_agency.service;
 
+import com.sharashkina_kontora.travel_agency.domain.Flight;
 import com.sharashkina_kontora.travel_agency.domain.Location;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.repository.TourRepository;
@@ -8,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,6 +83,8 @@ public class TourServiceImpl implements TourService {
         Location location = tour.getLocation();
         location.getTours().add(tour);
 
+        tour.getFlights().forEach(flight -> flight.getTours().add(tour));
+
         return tourRepository.save(tour);
     }
 
@@ -100,6 +100,8 @@ public class TourServiceImpl implements TourService {
     public void delete(Tour tour) {
         Location location = tour.getLocation();
         location.getTours().remove(tour);
+
+        tour.getFlights().forEach(flight -> flight.getTours().remove(tour));
 
         tourRepository.delete(tour);
     }

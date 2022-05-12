@@ -2,6 +2,7 @@ package com.sharashkina_kontora.travel_agency.bootstrap;
 
 import com.sharashkina_kontora.travel_agency.domain.*;
 import com.sharashkina_kontora.travel_agency.service.*;
+import com.sharashkina_kontora.travel_agency.view.Constants;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -39,8 +40,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 .build();
 
         Location location2 = Location.builder()
-                .city("Saint-Petersberg")
-                .country("Russia")
+                .city("Grido Islando")
+                .country("XXX")
                 .build();
         locationService.save(location);
         locationService.save(location2);
@@ -68,8 +69,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Flight flight4 = Flight.builder()
                 .name("flight4")
-                .departureAirport("Pulkovo")
-                .arrivalAirport("Kurumoch")
+                .departureAirport("Karaganda")
+                .arrivalAirport("Krojopol'")
                 .date(LocalDate.now())
                 .build();
 
@@ -79,14 +80,12 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         Flight savedFlight4 = flightService.save(flight4);
 
         Tour tour1 = Tour.builder()
-                .name("NICE TOUR")
-                .freePlaces(3)
-                .price(1)
-                .duration(1L)
+                .name("Excursion to England bars")
+                .freePlaces(300)
+                .price(90)
+                .duration(14L)
                 .location(location)
                 .build();
-
-        //tour1.setFlights(Set.of(savedFlight));
 
         tourService.save(tour1);
 
@@ -95,11 +94,11 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         tourService.save(tour1);
 
         Tour tour2 = Tour.builder()
-                .name("NICEEEEE TOUR 2")
+                .name("Grido Islando")
                 .freePlaces(3)
-                .price(1)
-                .duration(1L)
-                .location(location)
+                .price(300)
+                .duration(90L)
+                .location(location2)
                 .build();
 
         tourService.save(tour2);
@@ -107,7 +106,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         tourService.save(tour2);
 
         Role role = Role.builder()
-                .name("adm")
+                .name(Constants.ADMIN)
                 .build();
 
         roleService.save(role);
@@ -119,25 +118,19 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         roleService.save(role2);
 
         User user = User.builder()
-                .firstName("Lilya")
-                .email("lil@gmaill.com")
+                .firstName("Vitya")
+                .lastName("Mineev")
+                .email("user@gmail.com")
                 .password("123")
                 .role(role2)
                 .build();
 
         userService.save(user);
 
-        User user2 = User.builder()
-                .firstName("Tourist")
-                .password("123")
-                .role(role2)
-                .build();
-
-        userService.save(user2);
-
         User user3 = User.builder()
-                .firstName("Dima")
-                .email("dim@gmaill.com")
+                .firstName("Admin")
+                .lastName("Admin")
+                .email("admin@gmail.com")
                 .password("123")
                 .role(role)
                 .build();
@@ -165,9 +158,5 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         orderService.save(order1);
         orderService.save(order2);
         orderService.save(order3);
-
-//        orderService.delete(order1);
-
-        //userService.delete(userService.findById(1L).get());
     }
 }

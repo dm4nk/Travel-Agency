@@ -224,7 +224,7 @@ public class MainView extends VerticalLayout {
     }
 
     private void performLogIn() {
-        if (user.getRole().getAuthority().equals("adm")) {
+        if (user.getRole().getAuthority().equals(Constants.ADMIN)) {
             replace(currentComponent, adminPage);
             replace(unauthorizedMenu, adminMenu);
         } else {

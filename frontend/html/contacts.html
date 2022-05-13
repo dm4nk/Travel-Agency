@@ -56,7 +56,8 @@
                     <div class="contact-icon">
                         <a href="https://t.me/dm4nk" target="_blank"><i class="fab fa-telegram"></i></a>
                         <a href="https://vk.com/lilyakudraleeva" target="_blank"><i class="fab fa-vk"></i></a>
-                        <a href="https://www.instagram.com/lilya_kudraleeva/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/lilya_kudraleeva/" target="_blank"><i
+                                class="fab fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
@@ -78,7 +79,7 @@
                 <div class="input-control">
                     <textarea name="message" id="message" cols="15" rows="8" placeholder="Message here"></textarea>
                 </div>
-                <div class="submit-btn">
+                <div class="submit-btn" template is="dom-bind">
                     <a href="" class="main-btn">
                         <span class="btn-text">
                             Send message
@@ -91,4 +92,22 @@
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        emailjs.init('4ibVH95AjQ9oAtQBz');
+        const submitBtn = document.querySelector('.submit-btn');
+        const form = document.querySelector('.contact-form');
+        const inputs = document.querySelectorAll('#user_name, #user_email, #subject, #message');
+        submitBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            emailjs.sendForm('service_61u2pz6', 'template_t0om7ye', form)
+                .then(function () {
+                    console.log('SUCCESS!');
+                }, function (error) {
+                    console.log('FAILED...', error);
+                });
+            inputs.forEach(input => {
+                input.value = '';
+            });
+        });
+    </script>
 </div>

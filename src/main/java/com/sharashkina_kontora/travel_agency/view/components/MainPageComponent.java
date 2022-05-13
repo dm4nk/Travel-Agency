@@ -4,6 +4,7 @@ import com.sharashkina_kontora.travel_agency.domain.User;
 import com.sharashkina_kontora.travel_agency.view.components.tour.ShowAllToursComponent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;

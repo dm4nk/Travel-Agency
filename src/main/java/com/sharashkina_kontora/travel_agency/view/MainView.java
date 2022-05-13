@@ -16,6 +16,8 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.JavaScript;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -36,9 +38,9 @@ import java.util.Comparator;
 @Theme(themeFolder = "my-theme")
 @CssImport("./styles/styles.css")
 @StyleSheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
-@StyleSheet("https://fonts.gstatic.com")
-@StyleSheet("https://fonts.googleapis.com")
 @StyleSheet("https://fonts.googleapis.com/css2?family=Poppins:ital@0;1&display=swap")
+@JsModule("./js/emailjs.js")
+@JavaScript("./js/app.js")
 @Slf4j
 public class MainView extends VerticalLayout {
     //constants
@@ -146,6 +148,7 @@ public class MainView extends VerticalLayout {
     }
 
     private MenuBar createUnauthorizedMenu() {
+        unauthorizedMenu.addClassName("menu");
         registration.addClickListener(menuItemClickEvent -> registrationComponent.registerUser());
         authorization.addClickListener(menuItemClickEvent -> authorizationComponent.initComponent());
         toggleButtonUnauthorizedMenu.addClickListener(menuItemClickEvent -> toggleTheme());
@@ -153,6 +156,7 @@ public class MainView extends VerticalLayout {
     }
 
     private void createAdminMenu() {
+        adminMenu.addClassName("menu");
         logAdminOut.addClickListener(menuItemClickEvent -> performLogOut());
         mostPopular.addClickListener(event -> {
             StringBuilder mostPopularToursId = new StringBuilder();
@@ -197,6 +201,8 @@ public class MainView extends VerticalLayout {
         showOrders.addClickListener(menuItemClickEvent -> userPageComponent.initComponent(user));
         toggleButtonAuthorizedMenu.addClickListener(menuItemClickEvent -> toggleTheme());
         emailMenuButtonSubMenu.addItem("Log out", menuItemClickEvent -> logOutDialog.open());
+
+        userMenu.addClassName("menu");
 
         ConfirmDialog deleteDialog = new ConfirmDialog();
         deleteDialog.setHeader("Deleting account");

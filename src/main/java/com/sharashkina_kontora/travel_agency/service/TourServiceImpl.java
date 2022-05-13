@@ -1,6 +1,5 @@
 package com.sharashkina_kontora.travel_agency.service;
 
-import com.sharashkina_kontora.travel_agency.domain.Flight;
 import com.sharashkina_kontora.travel_agency.domain.Location;
 import com.sharashkina_kontora.travel_agency.domain.Tour;
 import com.sharashkina_kontora.travel_agency.repository.TourRepository;
@@ -9,7 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

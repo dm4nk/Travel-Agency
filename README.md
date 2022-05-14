@@ -9,7 +9,7 @@ This application was built using
 [Hibernate ORM](https://hibernate.org/),
 [H2 Database](https://www.h2database.com/html/main.html)
 with [Vaadin](https://vaadin.com/)
-for rendering the UI
+for rendering the UI with basic HTML, SCSS and JavaScript.
 
 It represents Travel Agency, providing users with CRUD operations. User can add orders with certain Tours, and Admin can Create Tours, add Flights and Locations to them, and change User Orders Status.
 

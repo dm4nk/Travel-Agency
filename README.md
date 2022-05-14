@@ -27,7 +27,7 @@ It represents Travel Agency, providing users with CRUD operations. User can add 
 
 ### User Page
 
-![image](https://user-images.githubusercontent.com/80630476/168443036-ec2531e7-f5f8-47e9-aa9d-57a9f7d1040a.png)
+![image](https://user-images.githubusercontent.com/80630476/168447357-d4a55eb8-7f30-4ceb-87c9-5aae55de5dc0.png)
 
 ### Login as User
 
@@ -48,7 +48,7 @@ It represents Travel Agency, providing users with CRUD operations. User can add 
 
 ### Light Theme
 
-![image](https://user-images.githubusercontent.com/80630476/168443157-a52dfb42-6e48-430e-80ec-06d7eb3d46ce.png)
+![image](https://user-images.githubusercontent.com/80630476/168447369-9638239d-35a2-4fc6-a97f-e4494e09f080.png)
 
 
 If you have any comments, feel fre to leave them [here](https://github.com/dm4nk/Travel-Agency/issues)

@@ -312,13 +312,16 @@ header {
 
     .contact-content-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 2fr 4fr;
         padding-top: 3.5rem;
         padding-bottom: 5rem;
 
-        .left-contact {
-            flex: 2;
+        .logo{
+            width: 35rem;
+            height: auto;
+        }
 
+        .left-contact {
             h4 {
                 margin-top: 1rem;
                 font-size: 2rem;
@@ -397,7 +400,6 @@ header {
         }
 
         .right-contact {
-            flex: 3;
             margin-left: 3rem;
 
             .input-control {

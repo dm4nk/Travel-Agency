@@ -43,6 +43,7 @@ It represents Travel Agency, providing users with CRUD operations. User can add 
 
 ### Nice Notifications
 ![image](https://user-images.githubusercontent.com/80630476/168443121-4e4d758e-600d-45f4-bf5a-d986c4d32afb.png)
+
 ![image](https://user-images.githubusercontent.com/80630476/168443139-40535700-8b5b-4bae-be6b-5aa5482e933f.png)
 
 ### Light Theme
